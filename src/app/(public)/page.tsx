@@ -1,3 +1,4 @@
+import Oferecemos from "./_components/offerMain";
 import { ScrollSequence } from "./_components/scroll-sequence";
 
 const frames = Array.from(
@@ -15,6 +16,7 @@ export default function Home() {
           </h1>
         </div>
       </ScrollSequence>
+      <Oferecemos/>
     </main>
   );
 }
