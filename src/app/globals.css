@@ -1,2 +1,15 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Esconde a barra de rolagem nativa (o scroll continua funcionando). */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
