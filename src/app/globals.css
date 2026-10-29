@@ -5,7 +5,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Esconde a barra de rolagem nativa (o scroll continua funcionando). */
+/* Esconde a barra de rolagem nativa. */
 html {
   scrollbar-width: none;
 }
