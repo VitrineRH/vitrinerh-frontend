@@ -1,7 +1,9 @@
 import { ScrollTimeline,
     ScrollTimelineItem
  } from "@/components/ui/scroll-timeline"
- import { Flag } from "lucide-react"
+ import { Bot, File, FileCheckCorner, Flag, Settings } from "lucide-react"
+import Image from "next/image"
+import { OrbitingCircles } from "@/components/magicui/orbiting-circles"
 
 
  const lancar = [
@@ -24,6 +26,29 @@ const Oferecemos = () => {
                         </ScrollTimelineItem>
                         ))}
                     </ScrollTimeline>
+                </div>
+                <div className="pl-18">
+                    <h3 className="text-2xl text-black/70 pb-2">
+                        Tudo para evoluir na carreira. Valorize seu perfil, desenvolva suas competências e prepare-se para a próxima oportunidade. <br/>
+                        Cada etapa responde a uma dúvida comum, para você não enfrentar essa jornada sozinho. 
+                    </h3>
+                    <div className="relative flex h-[500px] w-full items-center justify-center overflow-hidden">
+                        <OrbitingCircles>
+                            <File/>
+                            <Image
+                            src="/images/logo.svg"
+                            alt="logo"
+                            width={50}
+                            height={50}
+                            className="brightness-0"
+                            />
+                            <FileCheckCorner/>
+                        </OrbitingCircles>
+                        <OrbitingCircles radius={100} reverse>
+                            <File/>
+                            <Bot/>
+                        </OrbitingCircles>
+                    </div>
                 </div>
             </div>
         </section>
