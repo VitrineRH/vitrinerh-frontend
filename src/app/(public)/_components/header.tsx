@@ -14,7 +14,7 @@ import {
 import Botao from "@/components/pages/button"
 
 const linkClass =
-    "relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-[600ms] hover:after:w-full"
+    "relative text-[17px] hover:cursor-pointer after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-[600ms] hover:after:w-full"
     //erro por quebra de linha no tailwind
 
 const Header = () => {
@@ -44,10 +44,18 @@ const Header = () => {
                     alt=""
                     width={70}
                     height={70}
-                    className="brightness-0"
+                    className={`brightness-0 ${
+                        scrolled
+                        ? "brightness-0"
+                        : "invert"
+                    }`}
                     // irei fazer gambiarra nesse classname
                      />
-                    Vitrine<span className="font-bold">RH</span>
+                    <p className={`font-normal ${
+                        scrolled
+                        ? "text-black"
+                        : "text-white/90"
+                    }`}>Vitrine<span className="font-bold">RH</span></p>
                 </div>
                 </Link>
 
