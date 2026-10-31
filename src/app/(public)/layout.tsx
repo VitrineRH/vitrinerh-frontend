@@ -23,7 +23,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pt-br"
       suppressHydrationWarning
-      
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scrollbar-none [&::-webkit-scrollbar]:hidden`}
     >
       <body>

@@ -2,6 +2,9 @@ import Oferecemos from "./_components/offerMain";
 import { ScrollSequence } from "./_components/scroll-sequence";
 import Recursos from "./_components/recurse"
 import Dados from "./_components/dados"
+import Acreditamos from "./_components/acreditamos"
+import Precos from "./_components/precos";
+import Final from "./_components/final";
 
 const frames = Array.from(
   { length: 150 },
@@ -23,6 +26,9 @@ export default function Home() {
       <Oferecemos/>
       <Recursos/>
       <Dados/>
+      <Acreditamos/>
+      <Precos />
+      <Final/>
     </main>
   );
 }

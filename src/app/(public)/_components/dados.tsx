@@ -44,7 +44,7 @@ const Dados = () => {
 
             <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 z-5 opacity-17"
+                className="pointer-events-none absolute inset-0 z-5 opacity-15"
                 style={{ backgroundImage: noiseUrl }}
             />
 
