@@ -5,7 +5,6 @@ export default function AssimNasceu() {
                 <h2 className="text-3xl text-black font-medium leading-[1.12] tracking-[-1.2px] md:w-[400px] md:shrink-0 md:text-5xl">
                     Da preparação até a oportunidade
                 </h2>
-
                 <div className="flex flex-col gap-2 text-base leading-[1.65] text-[#525252] md:text-lg md:text-justify">
                     <p>
                         Diante dessa realidade, desenvolvemos o VitrineRH, uma plataforma que transforma a preparação em um caminho para novas oportunidades.
@@ -19,7 +18,7 @@ export default function AssimNasceu() {
                     <p>
                         Acreditamos que chegar a uma oportunidade exige mais do que encontrar uma vaga. É preciso saber como se preparar, reconhecer o que pode ser aprimorado e ter acesso aos direcionamentos certos.
                     </p>
-                    <p className="font-semibold text-black/66">
+                    <p className="font-semibold text-black/[.66]">
                         Nossa proposta é transformar preparação em confiança, aprendizado em evolução e potencial em oportunidade.
                     </p>
                 </div>
@@ -27,4 +26,3 @@ export default function AssimNasceu() {
         </section>
     );
 }
-
