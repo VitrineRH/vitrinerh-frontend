@@ -23,6 +23,7 @@
   "menuAccent": "subtle",
   "registries": {
     "@cortexcn": "https://ui.cortexcn.dev/r/{name}.json",
-    "@aceternity": "https://ui.aceternity.com/registry/{name}.json"
+    "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
+    "@react-bits": "https://reactbits.dev/r/{name}.json"
   }
 }
