@@ -11,7 +11,11 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import Botao from "@/components/pages/button"
 
+const linkClass =
+    "relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-[600ms] hover:after:w-full"
+    //erro por quebra de linha no tailwind
 
 const Header = () => {
 
@@ -49,21 +53,14 @@ const Header = () => {
 
                 <div className="hidden items-center gap-8 text-[20px] text-black md:flex">
 
-                    <Link href="/candidatos" className="relative
-                    after:absolute after:left-0
-                    after:-bottom-1 after:h-[2px] after:w-0
-                    after:bg-black after:transition-all
-                    after:duration-[600ms] hover:after:w-full">
+                    <Link href="/candidatos" className={linkClass}>
                     Candidato
                     </Link>
 
                     <NavigationMenu>
                         <NavigationMenuList>
                         <NavigationMenuItem>
-                            <NavigationMenuTrigger className="relative after:absolute
-                            after:left-0 after:-bottom-1 after:h-[2px] after:w-0
-                            after:bg-black after:transition-all after:duration-[600ms]
-                            hover:after:w-full text-[19px] hover:cursor-pointer"> Soluções </NavigationMenuTrigger>
+                            <NavigationMenuTrigger className={linkClass}> Soluções </NavigationMenuTrigger>
                             <NavigationMenuContent>
                                 <ul className="grid w-[400px] gap-2 p-4 md:grid-cols-2">
                                     <li>
@@ -104,28 +101,16 @@ const Header = () => {
                         </NavigationMenuList>
                     </NavigationMenu>
 
-                    <Link href="/candidatos" className="relative
-                    after:absolute after:left-0
-                    after:-bottom-1 after:h-[2px] after:w-0
-                    after:bg-black after:transition-all
-                    after:duration-[600ms] hover:after:w-full">
+                    <Link href="/candidatos" className={linkClass}>
                     Como funciona
                     </Link>
 
-                    <Link href="/sobre" className="relative
-                    after:absolute after:left-0
-                    after:-bottom-1 after:h-[2px] after:w-0
-                    after:bg-black after:transition-all
-                    after:duration-[600ms] hover:after:w-full">
+                    <Link href="/sobre" className={linkClass}>
                     Sobre
                     </Link>
                 </div>
 
-                <Link href="/login" className="rounded-2xl
-                bg-white px-5 py-1.5 border border-black/70 font-medium
-                text-[16px] transition hover:bg-white/65">
-                    Entrar
-                </Link>
+                <Botao conteudo="Entrar" />
             </nav>
         </header>
     )

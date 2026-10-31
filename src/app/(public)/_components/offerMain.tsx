@@ -13,6 +13,7 @@ import { OrbitingCircles } from "@/components/magicui/orbiting-circles"
     { nome: 'Cursos e trilhas', conteudo: 'Desenvolva as competências que faltam para a vaga com cursos gratuitos com certificado, exercícios práticos e recomendações personalizadas ao seu perfil e aos seus objetivos.'},
     { nome: 'Mentoria e evolução', conteudo: 'Profissionais de RH ajudam você a planejar os próximos passos, e seu progresso fica registrado a cada etapa.'}
  ]
+ 
 const Oferecemos = () => {
     return(
         <section className="py-20 bg-white">
