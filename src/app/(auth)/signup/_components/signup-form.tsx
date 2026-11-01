@@ -24,16 +24,16 @@ export function SignupForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Create your account</CardTitle>
+          <CardTitle className="text-xl">Crie sua conta!</CardTitle>
           <CardDescription>
-            Enter your email below to create your account
+            Entre com seu email e crie sua conta
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="name">Full Name</FieldLabel>
+                <FieldLabel htmlFor="name">Nome completo</FieldLabel>
                 <Input id="name" type="text" placeholder="John Doe" required />
               </Field>
               <Field>
@@ -48,24 +48,24 @@ export function SignupForm({
               <Field>
                 <Field className="grid grid-cols-2 gap-4">
                   <Field>
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                    <FieldLabel htmlFor="password">Senha</FieldLabel>
                     <Input id="password" type="password" required />
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="confirm-password">
-                      Confirm Password
+                      Confirme sua senha
                     </FieldLabel>
                     <Input id="confirm-password" type="password" required />
                   </Field>
                 </Field>
                 <FieldDescription>
-                  Must be at least 8 characters long.
+                  Coloque pelo menos 8 caracteres
                 </FieldDescription>
               </Field>
               <Field>
-                <Button type="submit">Create Account</Button>
+                <Button type="submit">Crie sua conta</Button>
                 <FieldDescription className="text-center">
-                  Already have an account? <a href="#">Sign in</a>
+                  Já tem uma conta? <a href="#" className="text-blue-500"> Faça login. </a>
                 </FieldDescription>
               </Field>
             </FieldGroup>
@@ -73,8 +73,7 @@ export function SignupForm({
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        Clicando você aceita todos os termos de condições <a href="#">Termos de condição </a>.
       </FieldDescription>
     </div>
   )
