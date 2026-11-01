@@ -33,7 +33,7 @@ export default function AuthLayout({
         <div className="absolute inset-0 z-0">
           <DotGrid
             baseColor="#ffffff"
-            activeColor="#000000"
+            activeColor="#2563EB"
             shape="circle"
             dotSize={5}
             gap={18}
