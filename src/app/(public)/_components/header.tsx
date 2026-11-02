@@ -71,37 +71,29 @@ const Header = () => {
                         <NavigationMenuItem>
                             <NavigationMenuTrigger className={linkClass}> Soluções </NavigationMenuTrigger>
                             <NavigationMenuContent>
-                                <ul className="grid w-[400px] gap-2 p-4 md:grid-cols-2">
-                                    <li>
-                                        <NavigationMenuLink>
-                                            <Link href="">
+                                <ul className="grid w-screen gap-2 p-4 md:grid-cols-2">
+                                    <li className="grid grid-cols-2 w-[200%] "> {/* Fiz gambiarra aqui por favor nao perguntar */} 
+                                        <NavigationMenuLink render={<Link href="/" />} className="p-4 hover:bg-transparent hover:cursor-pointer">
                                                 <div className="font-medium">
                                                     Analise de curriculo
                                                 </div>
                                                 <p className="text-sm text-muted-foreground"> Descubra pontos fortes e oportunidades de melhoria </p>
-                                            </Link>
                                         </NavigationMenuLink>
-                                        <NavigationMenuLink>
-                                            <Link href="">
+                                        <NavigationMenuLink render={<Link href="/" />} className="p-4 hover:bg-transparent hover:cursor-pointer">
                                                 <div className="font-medium"> Compatibilidade com Vagas </div>
                                                 <p> Descubra como seu perfil se encaixa nas oportunidades.</p>
-                                            </Link>
                                         </NavigationMenuLink>
-                                        <NavigationMenuLink>
-                                            <Link href="">
+                                        <NavigationMenuLink render={<Link href="" />} className="p-4 hover:bg-transparent hover:cursor-pointer">
                                                 <div className="font-medium">
                                                     Preparação de entrevistas
                                                 </div>
                                                 <p className="text-sm text-muted-foreground"> Pratique entrevistas e receba seu Feedback </p>
-                                            </Link>
                                         </NavigationMenuLink>
-                                         <NavigationMenuLink>
-                                            <Link href="">
+                                         <NavigationMenuLink render={<Link href="" />} className="p-4 hover:cursor-pointer hover:bg-transparent">
                                                 <div className="font-medium">
                                                     Desenvolvimento profissional
                                                 </div>
                                                 <p className="text-sm text-muted-foreground"> Encontre cursos e trilhas para evoluir </p>
-                                            </Link>
                                         </NavigationMenuLink>
                                     </li>
                                 </ul>
@@ -119,10 +111,13 @@ const Header = () => {
                     </Link>
                 </div>
 
+
+                <div className="flex flex-row gap-6 items-center justify-center">
                 <ModeToggle />
                 <Link href="/auth">
                 <Botao conteudo="Entrar" />
                 </Link>
+                </div>
             </nav>
         </header>
     )
