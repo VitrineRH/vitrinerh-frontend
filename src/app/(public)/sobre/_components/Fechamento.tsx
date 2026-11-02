@@ -1,14 +1,18 @@
-import Image from "next/image";
+import GlowCursor from "@/components/GlowCursor";
 
 export default function Fechamento() {
     return (
         <section className="relative overflow-hidden bg-black px-4 py-20 md:px-[120px] md:py-[128px]">
-            <Image
-                src="/images/brilho-fechamento.svg"
-                alt=""
-                width={1300}
-                height={820}
-                className="pointer-events-none absolute left-1/2 top-[-40px] max-w-none -translate-x-1/2"
+        
+            <GlowCursor
+                color="#5f8bff"
+                intensity={1.3}
+                trailWidth={3}
+                linger={1.4}
+                glow={1.2}
+                clickBurst
+                theme="light"
+                style={{ position: "absolute", inset: 0 }}
             />
             <div className="relative mx-auto flex max-w-[1000px] flex-col items-center gap-8 text-center">
                 <p className="text-3xl font-medium leading-[1.14] tracking-[-1.2px] text-white md:text-5xl">

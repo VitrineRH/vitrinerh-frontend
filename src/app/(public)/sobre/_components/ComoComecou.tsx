@@ -10,7 +10,7 @@ export default function ComoComecou() {
                         alt="Pessoas reunidas em uma mesa de trabalho apertando as mãos"
                         fill
                         sizes="(min-width: 768px) 50vw, 100vw"
-                        className="object-cover"
+                        className="object-cover transition-[scale] duration-500 ease-out motion-safe:hover:scale-105"
                     />
                 </div>
                 <div className="flex flex-col gap-6">
@@ -23,7 +23,7 @@ export default function ComoComecou() {
                             PROA, o VitrineRH nasceu da iniciativa de oito integrantes com um
                             propósito em comum,
                             <strong> tornar a preparação profissional mais acessível e direcionada.</strong>
-                        </p             >
+                        </p>             
                         <p>
                         Muitos candidatos desconhecem os requisitos das vagas, não recebem feedbacks que orientem seu desenvolvimento ou encontram dificuldades para identificar as competências que precisam aprimorar.
                         </p>

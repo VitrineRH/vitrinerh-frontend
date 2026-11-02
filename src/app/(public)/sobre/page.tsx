@@ -14,7 +14,6 @@ export default function Sobre() {
          <AssimNasceu />
          <ProjetoELinks/>
          <Fechamento/>
-     
       </main>
    );
 }

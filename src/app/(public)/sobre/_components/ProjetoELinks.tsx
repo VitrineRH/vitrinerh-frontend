@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Stardust from "./Sturdust";
 
 const REPOSITORIO_URL = "https://github.com/VitrineRH";
 
@@ -16,10 +17,12 @@ export default function ProjetoELinks() {
                         </h2>
                     </div>
                     <p className="text-base leading-[1.6] text-[#525252] md:w-[460px] md:text-lg">
-                        Acompanhe como o VitrineRH foi construído: código, documentação e as pessoas que estão por trás de cada decisão.
+                        Acompanhe como o VitrineRH foi construído e as pessoas que estão por trás de cada decisão.
                     </p>
                 </div>
-                <div className="flex w-full flex-col gap-10 rounded-[20px] bg-black p-8 md:w-[475px]">
+                <div className="relative flex w-full flex-col gap-10 overflow-hidden rounded-[20px] bg-black p-8 md:w-[475px]">
+                    <Stardust/>  
+
                     <div className="flex items-center justify-between">
                         <div className="flex size-12 items-center justify-center rounded-xl border border-white/16 bg-white/10">
                             <Image src="/icons/github.svg" alt="" width={22} height={22} />
