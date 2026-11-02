@@ -39,7 +39,7 @@ const Recursos = () => {
                 className="h-150 w-320 rounded-3xl object-cover"/>
                 <div className="flex flex-col gap-6">
                     <h3 className="text-2xl font-medium"> Entrevistas simuladas por video com IA </h3>
-                    <p className="text-sm text-black/70"> Você responde como em uma entrevista real. <br/>
+                    <p className="text-sm text-foreground/70"> Você responde como em uma entrevista real. <br/>
                         A IA observa expressões faciais, movimentos rápidos, <br/>
                          inclinações e giros da cabeça e aponta padrões de comportamento que vale ajustar. </p>
                     <Botao conteudo="Incluido no plano premium"/>
@@ -60,7 +60,7 @@ const Recursos = () => {
                         className="h-80 w-full object-cover rounded-xl group-hover/card:shadow-xl"
                         />
                     </CardItem>
-                    <CardItem translateZ={60} as="p" className="mt-4 text-base text-black/70">
+                    <CardItem translateZ={60} as="p" className="mt-4 text-base text-foreground/70">
                     Profissionais de RH divulgam seus serviços e definem seus preços.
                     Você escolhe quem combina com o seu objetivo e o seu orçamento.
                     </CardItem>

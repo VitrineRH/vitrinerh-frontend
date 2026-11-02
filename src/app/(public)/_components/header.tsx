@@ -12,9 +12,10 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 import Botao from "@/components/pages/button"
+import { ModeToggle } from "@/components/toggleModo"
 
 const linkClass =
-    "relative text-[17px] hover:cursor-pointer after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-[600ms] hover:after:w-full"
+    "relative text-[17px] hover:cursor-pointer after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-foreground after:transition-all after:duration-[600ms] hover:after:w-full"
     //erro por quebra de linha no tailwind
 
 const Header = () => {
@@ -32,19 +33,19 @@ const Header = () => {
     return (
         <header className={`fixed inset-x-0 top-0 z-50 py-1.5 transition-all duration-300 ${
             scrolled
-            ? "bg-white/70 shadow-sm backdrop-blur-md"
+            ? "bg-background/70 shadow-sm backdrop-blur-md"
             : "bg-transparent"
         }`}>
             <nav className="mx-auto justify-between items-center flex h-20 px-6 "
             aria-label="Principal">
                 <Link href="/">
-                <div className="text-2xl text-black flex items-center">
+                <div className="text-2xl text-foreground flex items-center">
                     <Image
                     src={"/images/logo.svg"}
                     alt=""
                     width={70}
                     height={70}
-                    className={`brightness-0 ${
+                    className={`brightness-0 dark:invert ${
                         scrolled
                         ? "brightness-0"
                         : "invert"
@@ -53,13 +54,13 @@ const Header = () => {
                      />
                     <p className={`font-normal ${
                         scrolled
-                        ? "text-black"
+                        ? "text-foreground"
                         : "text-white/90"
                     }`}>Vitrine<span className="font-bold">RH</span></p>
                 </div>
                 </Link>
 
-                <div className="hidden items-center gap-8 text-[20px] text-black md:flex">
+                <div className="hidden items-center gap-8 text-[20px] text-foreground md:flex">
 
                     <Link href="/candidatos" className={linkClass}>
                     Candidato
@@ -70,37 +71,29 @@ const Header = () => {
                         <NavigationMenuItem>
                             <NavigationMenuTrigger className={linkClass}> Soluções </NavigationMenuTrigger>
                             <NavigationMenuContent>
-                                <ul className="grid w-[400px] gap-2 p-4 md:grid-cols-2">
-                                    <li>
-                                        <NavigationMenuLink>
-                                            <Link href="">
+                                <ul className="grid w-screen gap-2 p-4 md:grid-cols-2">
+                                    <li className="grid grid-cols-2 w-[200%] "> {/* Fiz gambiarra aqui por favor nao perguntar */} 
+                                        <NavigationMenuLink render={<Link href="/" />} className="p-4 hover:bg-transparent hover:cursor-pointer">
                                                 <div className="font-medium">
                                                     Analise de curriculo
                                                 </div>
                                                 <p className="text-sm text-muted-foreground"> Descubra pontos fortes e oportunidades de melhoria </p>
-                                            </Link>
                                         </NavigationMenuLink>
-                                        <NavigationMenuLink>
-                                            <Link href="">
+                                        <NavigationMenuLink render={<Link href="/" />} className="p-4 hover:bg-transparent hover:cursor-pointer">
                                                 <div className="font-medium"> Compatibilidade com Vagas </div>
                                                 <p> Descubra como seu perfil se encaixa nas oportunidades.</p>
-                                            </Link>
                                         </NavigationMenuLink>
-                                        <NavigationMenuLink>
-                                            <Link href="">
+                                        <NavigationMenuLink render={<Link href="" />} className="p-4 hover:bg-transparent hover:cursor-pointer">
                                                 <div className="font-medium">
                                                     Preparação de entrevistas
                                                 </div>
                                                 <p className="text-sm text-muted-foreground"> Pratique entrevistas e receba seu Feedback </p>
-                                            </Link>
                                         </NavigationMenuLink>
-                                         <NavigationMenuLink>
-                                            <Link href="">
+                                         <NavigationMenuLink render={<Link href="" />} className="p-4 hover:cursor-pointer hover:bg-transparent">
                                                 <div className="font-medium">
                                                     Desenvolvimento profissional
                                                 </div>
                                                 <p className="text-sm text-muted-foreground"> Encontre cursos e trilhas para evoluir </p>
-                                            </Link>
                                         </NavigationMenuLink>
                                     </li>
                                 </ul>
@@ -117,9 +110,14 @@ const Header = () => {
                     Sobre
                     </Link>
                 </div>
+
+
+                <div className="flex flex-row gap-6 items-center justify-center">
+                <ModeToggle />
                 <Link href="/auth">
                 <Botao conteudo="Entrar" />
                 </Link>
+                </div>
             </nav>
         </header>
     )

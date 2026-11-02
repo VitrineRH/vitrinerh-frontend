@@ -5,18 +5,18 @@ const REPOSITORIO_URL = "https://github.com/VitrineRH";
 
 export default function ProjetoELinks() {
     return (
-        <section className="bg-white px-4 py-20 md:px-[120px] md:py-[120px]">
+        <section className="bg-background px-4 py-20 md:px-[120px] md:py-[120px]">
             <div className="mx-auto flex max-w-[1200px] flex-col gap-14">
                 <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                     <div className="flex flex-col items-start gap-6 md:w-[620px]">
-                        <span className="rounded-full border border-black/18 px-3.5 py-1.5 text-[13px] font-medium leading-[1.4] text-black">
+                        <span className="rounded-full border border-foreground/18 px-3.5 py-1.5 text-[13px] font-medium leading-[1.4] text-foreground">
                             Por trás do código
                         </span>
-                        <h2 className="text-3xl font-medium leading-[1.12] tracking-[-1.2px]  text-black md:text-5xl">
+                        <h2 className="text-3xl font-medium leading-[1.12] tracking-[-1.2px]  text-foreground md:text-5xl">
                             Um projeto aberto, feito para ser conhecido.
                         </h2>
                     </div>
-                    <p className="text-base leading-[1.6] text-[#525252] md:w-[460px] md:text-lg">
+                    <p className="text-base leading-[1.6] text-muted-foreground md:w-[460px] md:text-lg">
                         Acompanhe como o VitrineRH foi construído e as pessoas que estão por trás de cada decisão.
                     </p>
                 </div>

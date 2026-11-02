@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function ComoComecou() {
     return (
-        <section className="bg-[#f5f5f5] px-4 py-20 md:px-[120px] md:py-[120px]">
+        <section className="bg-muted px-4 py-20 md:px-[120px] md:py-[120px]">
             <div className="mx-auto grid max-w-[1200px] items-center gap-10 md:grid-cols-2 md:gap-20">
                 <div className="relative aspect-[560/680] w-full overflow-hidden rounded-[20px]">
                     <Image
@@ -14,10 +14,10 @@ export default function ComoComecou() {
                     />
                 </div>
                 <div className="flex flex-col gap-6">
-                    <h2 className="text-3xl font-medium leading-[1.12] tracking-[-1.1px] text-black md:text-[44px]" >
+                    <h2 className="text-3xl font-medium leading-[1.12] tracking-[-1.1px] text-foreground md:text-[44px]" >
                         Uma visão melhor sobre o mercado de trabalho
                     </h2>
-                    <div className="flex flex-col gap-2 leading-[1.64] text-[#525252] md:text-lg md:text-justify">
+                    <div className="flex flex-col gap-2 leading-[1.64] text-muted-foreground md:text-lg md:text-justify">
                         <p>
                             Criado em setembro de 2026, a partir de um projeto do Instituto
                             PROA, o VitrineRH nasceu da iniciativa de oito integrantes com um

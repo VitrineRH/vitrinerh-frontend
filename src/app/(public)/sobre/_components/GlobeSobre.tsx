@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 type Vec3 = [number, number, number];
 
 const COR = "23, 37, 84"; // blue-950
+const COR_ESCURO = "147, 197, 253"; // blue-300
 const TOTAL_PONTOS = 1400;
 const INCLINACAO = 0.35;
 const VELOCIDADE = 0.0025;
@@ -103,6 +104,7 @@ export default function GlobeSobre() {
         };
 
         const desenhar = () => {
+            const cor = document.documentElement.classList.contains("dark") ? COR_ESCURO : COR;
             const raio = Math.min(largura, altura) * 0.42;
             const cx = largura / 2;
             const cy = altura / 2;
@@ -124,7 +126,7 @@ export default function GlobeSobre() {
             for (const p of pontos) {
                 const { x, y, z } = projetar(p);
                 if (z <= 0) continue;
-                ctx.fillStyle = `rgba(${COR}, ${0.12 + z * 0.4})`;
+                ctx.fillStyle = `rgba(${cor}, ${0.12 + z * 0.4})`;
                 ctx.beginPath();
                 ctx.arc(x, y, 0.6 + z * 0.9, 0, Math.PI * 2);
                 ctx.fill();
@@ -133,7 +135,7 @@ export default function GlobeSobre() {
             for (const m of marcadores) {
                 const { x, y, z } = projetar(m);
                 if (z <= 0) continue;
-                ctx.fillStyle = `rgba(${COR}, 0.9)`;
+                ctx.fillStyle = `rgba(${cor}, 0.9)`;
                 ctx.beginPath();
                 ctx.arc(x, y, 3, 0, Math.PI * 2);
                 ctx.fill();
@@ -152,7 +154,7 @@ export default function GlobeSobre() {
                 const i0 = Math.floor(cauda * n);
                 const i1 = Math.ceil(cabeca * n);
                 let desenhando = false;
-                ctx.strokeStyle = `rgba(${COR}, 0.85)`;
+                ctx.strokeStyle = `rgba(${cor}, 0.85)`;
                 ctx.beginPath();
                 for (let i = i0; i <= i1; i++) {
                     const p = projetar(arco.amostras[i]);
@@ -192,7 +194,7 @@ export default function GlobeSobre() {
     }, []);
 
     return (
-        <section className="flex justify-center bg-white px-4 pb-20 md:px-[120px]">
+        <section className="flex justify-center bg-background px-4 pb-20 md:px-[120px]">
             <canvas
                 ref={canvasRef}
                 aria-label="Globo pontilhado conectando o Brasil ao mundo"

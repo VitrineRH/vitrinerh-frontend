@@ -16,10 +16,10 @@ import { OrbitingCircles } from "@/components/magicui/orbiting-circles"
  
 const Oferecemos = () => {
     return(
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-background">
             <h1 className="text-4xl pl-32 pb-16"> O que oferecemos? </h1>
             <div className="grid grid-cols-2 px-20">
-                <div className="h-[575px] overflow-y-auto rounded-xl border p-6 py-8 shadow-lg border-black/40">
+                <div className="h-[575px] overflow-y-auto rounded-xl border p-6 py-8 shadow-lg border-foreground/40">
                     <ScrollTimeline activationLine={0.70}>
                         {lancar.map((l) => (
                         <ScrollTimelineItem key={l.nome} title={l.nome}>
@@ -29,7 +29,7 @@ const Oferecemos = () => {
                     </ScrollTimeline>
                 </div>
                 <div className="pl-18">
-                    <h3 className="text-2xl text-black/70 pb-2">
+                    <h3 className="text-2xl text-foreground/70 pb-2">
                         Tudo para evoluir na carreira. Valorize seu perfil, desenvolva suas competências e prepare-se para a próxima oportunidade. <br/>
                         Cada etapa responde a uma dúvida comum, para você não enfrentar essa jornada sozinho. 
                     </h3>
@@ -41,7 +41,7 @@ const Oferecemos = () => {
                             alt="logo"
                             width={50}
                             height={50}
-                            className="brightness-0"
+                            className="brightness-0 dark:invert"
                             />
                             <FileCheckCorner/>
                         </OrbitingCircles>

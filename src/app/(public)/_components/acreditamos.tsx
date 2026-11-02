@@ -10,12 +10,12 @@ const listaDescricao = [
 
 const Acreditamos = () => {
     return (
-        <section className="py-18 px-16 grid grid-cols-[1.5fr_2fr] gap-10 bg-[#f5f5f5]">
+        <section className="py-18 px-16 grid grid-cols-[1.5fr_2fr] gap-10 bg-muted">
             <div className="flex flex-col gap-6">
                 <h4 className="text-6xl max-w-sm">
                     No que acreditamos
                 </h4>
-                <p className="text-lg text-black/70">
+                <p className="text-lg text-foreground/70">
                     Uma rejeição não define o potencial de ninguém. Por trás de cada currículo existe uma pessoa com objetivos e vontade de crescer.
                 </p>
             </div>

@@ -34,10 +34,10 @@ const planos = [
 
 const Precos = () => {
     return (
-        <section className="justify-center text-center py-12 bg-white px-6">
+        <section className="justify-center text-center py-12 bg-background px-6">
             <div className="flex flex-col gap-3 py-4">
                 <h2 className="text-4xl"> Comece gratis e evolua no seu ritmo </h2>
-                <p className="text-lg text-black/70 max-w-3xl mx-auto"> a versão gratuita permite experimentar as analises basicas. Os planos pagos ampliam o historico e liberam o mentor de inteligencia artificial </p>
+                <p className="text-lg text-foreground/70 max-w-3xl mx-auto"> a versão gratuita permite experimentar as analises basicas. Os planos pagos ampliam o historico e liberam o mentor de inteligencia artificial </p>
             </div>
             <div className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-6 md:grid-cols-2">
                 {planos.map((p) => (
@@ -60,7 +60,7 @@ const Precos = () => {
                     clickPulse
                     intro={p.destaque}
                     theme="light"
-                    className="h-full w-full! place-items-stretch"
+                    className="h-full w-full! place-items-stretch dark:bg-none dark:bg-card"
                 >
                  <div className="flex h-full flex-col gap-4 p-6 text-left">
                     <div className="flex items-center gap-3">
@@ -69,10 +69,10 @@ const Precos = () => {
                     </div>
                     <p className="text-5xl font-semibold">
                         {p.preco}
-                        <span className="ml-1 text-base font-normal text-black/50">/mês</span>
+                        <span className="ml-1 text-base font-normal text-foreground/50">/mês</span>
                     </p>
-                    <p className="text-black/60"> {p.descricao} </p>
-                    <ul className="flex flex-col gap-3 text-sm text-black/80">
+                    <p className="text-foreground/60"> {p.descricao} </p>
+                    <ul className="flex flex-col gap-3 text-sm text-foreground/80">
                         {p.beneficios.map((b) => (
                             <li key={b} className="flex items-start gap-3">
                                 <Check className="mt-0.5 size-4 shrink-0 text-blue-500"/>
