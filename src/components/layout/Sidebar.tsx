@@ -58,17 +58,14 @@ export function Sidebar()
             <ul className="space-y-1">
               {principalLinks.map((link) => {
                 const Icon = link.icon;
-                const isActive = pathname === link.href;
+                const isActive = pathname.startsWith(link.href);
                 
                 return (
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                        isActive
-                          ? "bg-slate-900 text-white"
-                          : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                      }`}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors
+                        ${isActive ? "bg-slate-900 text-white" : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"}`}
                     >
                       <Icon className="w-4 h-4" />
                       {link.name}
