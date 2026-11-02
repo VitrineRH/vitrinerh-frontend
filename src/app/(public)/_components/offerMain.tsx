@@ -1,7 +1,7 @@
 import { ScrollTimeline,
     ScrollTimelineItem
  } from "@/components/ui/scroll-timeline"
- import { Bot, File, FileCheckCorner, Flag, Settings } from "lucide-react"
+ import { Bot, File, FileCheckCorner } from "lucide-react"
 import Image from "next/image"
 import { OrbitingCircles } from "@/components/magicui/orbiting-circles"
 
