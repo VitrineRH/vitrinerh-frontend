@@ -117,8 +117,9 @@ const Header = () => {
                     Sobre
                     </Link>
                 </div>
-
+                <Link href="/auth">
                 <Botao conteudo="Entrar" />
+                </Link>
             </nav>
         </header>
     )

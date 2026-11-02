@@ -65,7 +65,7 @@ export function SignupForm({
               <Field>
                 <Button type="submit">Crie sua conta</Button>
                 <FieldDescription className="text-center">
-                  Já tem uma conta? <a href="#" className="text-blue-500"> Faça login. </a>
+                  Já tem uma conta? <a href="/auth" className="text-blue-500"> Faça login. </a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

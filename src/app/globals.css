@@ -2,13 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-<<<<<<< HEAD
-@theme inline {
---font-sans: var(--font-geist-sans);
---font-mono: var(--font-geist-mono);
-}
-
-=======
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -176,4 +169,3 @@ html::-webkit-scrollbar {
     @apply font-sans;
   }
 }
->>>>>>> origin/main

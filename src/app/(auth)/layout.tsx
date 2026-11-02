@@ -29,7 +29,7 @@ export default function AuthLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body>
+      <body suppressHydrationWarning>
         <div className="absolute inset-0 z-0">
           <DotGrid
             baseColor="#ffffff"

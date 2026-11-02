@@ -1,5 +1,5 @@
 import { cn } from "cn"
-
+import Link from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -80,7 +80,7 @@ export function LoginForm({
               <Field>
                 <Button type="submit">Entrar</Button>
                 <FieldDescription className="text-center">
-                  Não tem uma conta? <a href="#" className="hover:cursor-pointe text-blue-500"> Cadastre-se </a>
+                  Não tem uma conta? <a href="/signup" className="hover:cursor-pointe text-blue-500"> Cadastre-se </a>
                 </FieldDescription>
               </Field>
             </FieldGroup>
