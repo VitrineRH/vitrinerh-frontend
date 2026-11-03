@@ -3,6 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import ".././globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/pages/footer";
+import { Sidebar } from "@/components/layout/Sidebar";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "@/app/globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,11 +36,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
+       className="flex min-h-screen"
       >
+      <Sidebar/>
+      <main className="flex-1 p-8 bg-gray-50">
         {children}
+       </main>
         <Footer/>
       </ThemeProvider>
         </body>
     </html>
   );
 }
+
