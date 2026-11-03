@@ -1,7 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Sidebar } from "@/components/layout/Sidebar";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import Footer from "@/components/layout/footer";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { PerfilUsuario } from "@/components/layout/PerfilUsuario";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -26,21 +29,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scrollbar-none [&::-webkit-scrollbar]:hidden`}
     >
-      <body suppressHydrationWarning
-       className="flex min-h-screen">
-      <ThemeProvider 
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-      >
-     <Sidebar/>
-      <main className="flex-1 bg-[#f1f5f9] px-10 py-9">
-        {children}
-       </main>
-      </ThemeProvider>
-        </body>
+      <body suppressHydrationWarning className="flex min-h-screen">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Sidebar
+            perfil={
+              <Suspense fallback={<div className="h-12 mb-4 rounded-md bg-gray-100 animate-pulse" />}>
+                <PerfilUsuario />
+              </Suspense>
+            }
+          />
+          <main className="flex-1 bg-[#f1f5f9] px-10 py-9">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
-

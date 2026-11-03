@@ -1,5 +1,8 @@
+"use client"
+
+import { useActionState } from "react"
 import { cn } from "cn"
-import Link from "next/navigation"
+import { login } from "@/app/(auth)/actions"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -21,6 +24,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [state, action, pending] = useActionState(login, {})
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -31,7 +36,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form action={action}>
             <FieldGroup>
               <Field>
                 <Button variant="outline" type="button">
@@ -60,7 +65,9 @@ export function LoginForm({
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
+                  defaultValue={state.email}
                   placeholder="m@example.com"
                   required
                 />
@@ -75,10 +82,17 @@ export function LoginForm({
                     Esqueceu sua senha?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" name="password" type="password" required />
               </Field>
+              {state.error && (
+                <p role="alert" className="text-sm text-destructive text-center">
+                  {state.error}
+                </p>
+              )}
               <Field>
-                <Button type="submit">Entrar</Button>
+                <Button type="submit" disabled={pending}>
+                  {pending ? "Entrando..." : "Entrar"}
+                </Button>
                 <FieldDescription className="text-center">
                   Não tem uma conta? <a href="/signup" className="hover:cursor-pointe text-blue-500"> Cadastre-se </a>
                 </FieldDescription>
