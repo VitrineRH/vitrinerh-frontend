@@ -4,7 +4,7 @@ import { Marquee } from "@/components/ui/marquee"
 import { CardSpotlight } from "@/components/ui/card-spotlight"
 import { Check } from "lucide-react"
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
-import Botao from "@/components/pages/button";
+import Botao from "@/components/layout/button";
 
 const fundacoes = [
     { nome: 'Fundação Bradesco', img:  '/documents/Bradesco.jpg'},
@@ -42,7 +42,7 @@ const Recursos = () => {
                     <p className="text-sm text-foreground/70"> Você responde como em uma entrevista real. <br/>
                         A IA observa expressões faciais, movimentos rápidos, <br/>
                          inclinações e giros da cabeça e aponta padrões de comportamento que vale ajustar. </p>
-                    <Botao conteudo="Incluido no plano premium"/>
+                    <Botao conteudo="Incluido no plano premium" className=""/>
                 </div>
             </div>
             <div className="grid grid-cols-1 py-6 items-stretch gap-8 lg:grid-cols-2">

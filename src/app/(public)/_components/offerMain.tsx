@@ -16,7 +16,7 @@ import { OrbitingCircles } from "@/components/magicui/orbiting-circles"
  
 const Oferecemos = () => {
     return(
-        <section className="py-20 bg-background">
+        <section className="py-20 bg-background" id="candidatos">
             <h1 className="text-4xl pl-32 pb-16"> O que oferecemos? </h1>
             <div className="grid grid-cols-2 px-20">
                 <div className="h-[575px] overflow-y-auto rounded-xl border p-6 py-8 shadow-lg border-foreground/40">

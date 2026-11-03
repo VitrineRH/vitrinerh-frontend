@@ -65,7 +65,21 @@
     transform: translateY(calc(-100% - var(--gap)));
     }
   }
-}
+  --process-card: var(--surface);
+  --process-card-border: var(--border);
+  --process-card-number: var(--primary);
+  --process-card-shadow: var(--background)
+;
+  --animate-meteor: meteor 5s linear infinite;
+  @keyframes meteor {
+  0% {
+    transform: rotate(var(--angle)) translateX(0);
+    opacity: 1;}
+  70% {
+    opacity: 1;}
+  100% {
+    transform: rotate(var(--angle)) translateX(-500px);
+    opacity: 0;}}}
 
 /* Animação do OrbitingCircles (Magic UI). */
 @keyframes orbit {
