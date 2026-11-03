@@ -81,7 +81,7 @@ const Precos = () => {
                         ))}
                     </ul>
                     <Link href="/" className="mt-auto pt-6">
-                        <Botao conteudo="Ficar com este!" />
+                        <Botao conteudo="Ficar com este!" className=""/>
                     </Link>
                  </div>
                 </PixelCard>
