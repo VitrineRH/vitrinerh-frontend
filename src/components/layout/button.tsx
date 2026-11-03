@@ -4,13 +4,14 @@ const botoes =
 
 type BotaoProps = {
     conteudo: string;
+    className: string;
 }
 
 
-const Botao = ({ conteudo }: BotaoProps ) => {
+const Botao = ({ conteudo, className }: BotaoProps ) => {
     return (
         <>
-            <button className={botoes}>
+            <button className={`${botoes} ${className ?? ""}`}>
                  {conteudo}
             </button>
         </>

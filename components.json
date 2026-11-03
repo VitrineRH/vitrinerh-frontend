@@ -25,6 +25,9 @@
     "@cortexcn": "https://ui.cortexcn.dev/r/{name}.json",
     "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
     "@react-bits": "https://reactbits.dev/r/{name}.json",
-    "@systaliko-ui": "https://systaliko-ui.vercel.app/r/{name}.json"
+    "@systaliko-ui": "https://systaliko-ui.vercel.app/r/{name}.json",
+    "@te": "https://templateempire.io/r/{name}.json",
+    "@magicui": "https://magicui.design/r/{name}",
+    "@coss": "https://coss.com/ui/r/{name}.json"
   }
 }

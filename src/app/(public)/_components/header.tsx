@@ -11,7 +11,7 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import Botao from "@/components/pages/button"
+import Botao from "@/components/layout/button"
 import { ModeToggle } from "@/components/toggleModo"
 
 const linkClass =
@@ -62,7 +62,7 @@ const Header = () => {
 
                 <div className="hidden items-center gap-8 text-[20px] text-foreground md:flex">
 
-                    <Link href="/candidatos" className={linkClass}>
+                    <Link href="#candidatos" className={linkClass}>
                     Candidato
                     </Link>
 
@@ -102,7 +102,7 @@ const Header = () => {
                         </NavigationMenuList>
                     </NavigationMenu>
 
-                    <Link href="/candidatos" className={linkClass}>
+                    <Link href="/como-funciona" className={linkClass}>
                     Como funciona
                     </Link>
 
@@ -115,7 +115,7 @@ const Header = () => {
                 <div className="flex flex-row gap-6 items-center justify-center">
                 <ModeToggle />
                 <Link href="/auth">
-                <Botao conteudo="Entrar" />
+                <Botao conteudo="Entrar" className="" />
                 </Link>
                 </div>
             </nav>

@@ -1,4 +1,4 @@
-import Botao from "@/components/pages/button"
+import Botao from "@/components/layout/button"
 import PixelCard from "@/components/PixelCard"
 import { Check, Sparkles, Rocket } from "lucide-react"
 import Link from "next/link"
