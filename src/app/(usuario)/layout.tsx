@@ -1,3 +1,8 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import ".././globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import Footer from "@/components/pages/footer";
 import { Sidebar } from "@/components/layout/Sidebar";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -25,15 +30,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scrollbar-none [&::-webkit-scrollbar]:hidden`}
     >
-    <body className="flex min-h-screen" suppressHydrationWarning>
-      {/* A sua Sidebar fica fixa no lado esquerdo */}
+      <body suppressHydrationWarning>
+      <ThemeProvider 
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+       className="flex min-h-screen"
+      >
       <Sidebar/>
-      
-      {/* O conteúdo das telas renderiza ao lado da Sidebar */}
       <main className="flex-1 p-8 bg-gray-50">
         {children}
-      </main>
-    </body>
+       </main>
+        <Footer/>
+      </ThemeProvider>
+        </body>
     </html>
   );
 }
+
