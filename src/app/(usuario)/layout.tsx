@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/layout/footer";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { PerfilUsuario } from "@/components/layout/PerfilUsuario";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -35,7 +37,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       enableSystem
       disableTransitionOnChange
       >
-      <Sidebar/>
+      <Sidebar
+        perfil={
+          <Suspense fallback={<div className="h-12 mb-4 rounded-md bg-gray-100 animate-pulse" />}>
+            <PerfilUsuario />
+          </Suspense>
+        }
+      />
       <main className="flex-1 p-8 bg-gray-50">
         {children}
        </main>

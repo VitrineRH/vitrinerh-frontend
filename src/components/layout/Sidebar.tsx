@@ -19,10 +19,11 @@ O nome das pastas para os links de navegação são:
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { Home, FileText, Briefcase, Bot, GraduationCap, Users, Calendar, ChevronsUpDown } from "lucide-react";
+import { Home, FileText, Briefcase, Bot, GraduationCap, Users, Calendar } from "lucide-react";
 
-export function Sidebar()
+export function Sidebar({ perfil }: { perfil: ReactNode })
 {
   const pathname = usePathname();
   const principalLinks =
@@ -104,18 +105,7 @@ export function Sidebar()
         {/* Rodapé da Sidebar */}
         <footer className="p-4 border-t border-gray-200 mt-6">
           {/* Perfil do Usuário */}
-          <div className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md cursor-pointer mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">
-                U
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-900">Usuario</p>
-                <p className="text-xs text-gray-500">m@example.com</p>
-              </div>
-            </div>
-            <ChevronsUpDown className="w-4 h-4 text-gray-400" />
-          </div>
+          {perfil}
 
           <hr className="border-gray-200 mb-4" />
 
