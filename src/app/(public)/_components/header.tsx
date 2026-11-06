@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import Botao from "@/components/layout/button"
 import { ModeToggle } from "@/components/toggleModo"
+import Entrar from "./menu-entrar"
 
 const linkClass =
     "relative text-[17px] hover:cursor-pointer after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-foreground after:transition-all after:duration-[600ms] hover:after:w-full"
@@ -69,7 +70,11 @@ const Header = () => {
                     <NavigationMenu>
                         <NavigationMenuList>
                         <NavigationMenuItem>
-                            <NavigationMenuTrigger className={linkClass}> Soluções </NavigationMenuTrigger>
+                            <NavigationMenuTrigger
+                                className={`${linkClass} h-auto rounded-none bg-transparent px-0 py-0 font-normal outline-none focus-visible:ring-0 focus-visible:outline-none focus-visible:after:w-full hover:bg-transparent focus:bg-transparent data-popup-open:bg-transparent data-popup-open:hover:bg-transparent data-open:bg-transparent data-open:hover:bg-transparent data-open:focus:bg-transparent`}
+                            >
+                                Soluções
+                            </NavigationMenuTrigger>
                             <NavigationMenuContent>
                                 <ul className="grid w-screen gap-2 p-4 md:grid-cols-2">
                                     <li className="grid grid-cols-2 w-[200%] "> {/* Fiz gambiarra aqui por favor nao perguntar */} 
@@ -114,9 +119,7 @@ const Header = () => {
 
                 <div className="flex flex-row gap-6 items-center justify-center">
                 <ModeToggle />
-                <Link href="/auth">
-                <Botao conteudo="Entrar" className="" />
-                </Link>
+                <Entrar />
                 </div>
             </nav>
         </header>
