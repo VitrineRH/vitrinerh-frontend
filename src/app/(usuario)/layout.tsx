@@ -6,6 +6,7 @@ import Footer from "@/components/layout/footer";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { PerfilUsuario } from "@/components/layout/PerfilUsuario";
 import "@/app/globals.css";
+import VLibras from "@/components/accessibility/VLibras";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           enableSystem
           disableTransitionOnChange
         >
+          <VLibras />
           <Sidebar
             perfil={
               <Suspense fallback={<div className="h-12 mb-4 rounded-md bg-gray-100 animate-pulse" />}>
