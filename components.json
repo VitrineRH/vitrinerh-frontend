@@ -28,6 +28,7 @@
     "@systaliko-ui": "https://systaliko-ui.vercel.app/r/{name}.json",
     "@te": "https://templateempire.io/r/{name}.json",
     "@magicui": "https://magicui.design/r/{name}",
-    "@coss": "https://coss.com/ui/r/{name}.json"
+    "@coss": "https://coss.com/ui/r/{name}.json",
+    "@blocks-so": "https://blocks.so/r/{name}.json"
   }
 }
