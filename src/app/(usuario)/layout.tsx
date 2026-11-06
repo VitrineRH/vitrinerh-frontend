@@ -44,10 +44,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <PerfilUsuario />
               </Suspense>
             }
-          />
-          <main className="flex-1 bg-[#f1f5f9] px-10 py-9">
+          >
             {children}
-          </main>
+          </Sidebar>
         </ThemeProvider>
       </body>
     </html>
