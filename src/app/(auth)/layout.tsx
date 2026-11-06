@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import DotGridTema from "@/components/DotGridTema";
 import "../globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import VLibras from "@/components/accessibility/VLibras";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +39,7 @@ export default function AuthLayout({
         enableSystem
         disableTransitionOnChange
         >
+        <VLibras />
         <div className="absolute inset-0 z-0">
           <DotGridTema />
         </div>

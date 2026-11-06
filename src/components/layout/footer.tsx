@@ -91,7 +91,7 @@ export default function Footer() {
 
                     <div className="flex items-center gap-[19px]">
                         <Image src="/icons/vlibras.svg" alt="" width={28} height={23} className="brightness-0 dark:invert" />
-                        <p className="whitespace-nowrap [text-shadow:0px_4px_4px_rgba(0,0,0,0.25)]">Hand Talk</p>
+                        <p className="whitespace-nowrap [text-shadow:0px_4px_4px_rgba(0,0,0,0.25)]">VLibras</p>
                     </div>
                 </div>
             </div>
