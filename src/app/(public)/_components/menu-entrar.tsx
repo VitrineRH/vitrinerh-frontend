@@ -17,7 +17,7 @@ const opcoes = [
         Icone: UserPlus,
     },
     {
-        href: "/seja-mentor",
+        href: "/mentor/signup",
         titulo: "Mentor",
         descricao: "Acompanhe profissionais",
         Icone: Handshake
