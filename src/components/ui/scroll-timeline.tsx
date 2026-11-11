@@ -96,7 +96,7 @@ export function ScrollTimelineItem({ title, date, icon, children, className, }: 
             : { left: RAIL_X, x: "-50%", opacity: haloOpacity, scale: haloScale }}/>
       
       <motion.span aria-hidden className={cn("absolute top-1 grid size-4 place-items-center rounded-full border transition-colors duration-300", active
-            ? "border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900"
+            ? "border-blue-600 bg-blue-600 text-white dark:border-blue-400 dark:bg-blue-400 dark:text-neutral-900"
             : "border-neutral-300 bg-white text-transparent dark:border-neutral-700 dark:bg-neutral-950")} style={isStatic
             ? { left: RAIL_X, x: "-50%" }
             : { left: RAIL_X, x: "-50%", scale: dotScale }}>

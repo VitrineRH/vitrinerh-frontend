@@ -24,34 +24,34 @@ const vagas = [
 
 export default function VagasRecomendadas() {
   return (
-    <section className="flex flex-col gap-1 self-start rounded-[16px] border border-[#d9d9d9] bg-white px-6 pt-5 pb-3 shadow-[0px_2px_6px_rgba(0,0,0,0.06)]">
+    <section className="flex flex-col gap-1 self-start rounded-[16px] border border-[#d9d9d9] bg-white px-6 pt-5 pb-3 shadow-[0px_2px_6px_rgba(0,0,0,0.06)] dark:border-border dark:bg-card">
       <div className="flex items-center justify-between gap-4 pb-2">
-        <h2 className="text-base font-semibold text-black">
+        <h2 className="text-base font-semibold text-black dark:text-foreground">
           Vagas recomendadas para você
         </h2>
         <Link
           href="/vagas"
-          className="shrink-0 text-sm font-medium text-[#1a56db] hover:underline"
+          className="shrink-0 text-sm font-medium text-[#1a56db] hover:underline dark:text-blue-400"
         >
           Ver todas as vagas
         </Link>
       </div>
 
-      <ul className="divide-y divide-[#e5e5e5]">
+      <ul className="divide-y divide-[#e5e5e5] dark:divide-border">
         {vagas.map((vaga) => (
           <li key={vaga.id} className="flex items-center gap-4 py-[14px]">
             <div className="flex min-w-0 flex-1 flex-col gap-1">
-              <h3 className="text-[18px] font-semibold text-[#2d2d2d]">
+              <h3 className="text-[18px] font-semibold text-[#2d2d2d] dark:text-foreground">
                 {vaga.titulo}
               </h3>
-              <p className="text-sm text-[#595959]">{vaga.local}</p>
+              <p className="text-sm text-[#595959] dark:text-muted-foreground">{vaga.local}</p>
             </div>
 
             <span
               className={`shrink-0 rounded-[8px] px-2.5 py-1.5 text-[13px] font-semibold whitespace-nowrap ${
                 vaga.compatibilidade >= 80
-                  ? "bg-[#e6f4ea] text-[#1e7b34]"
-                  : "bg-[#f1f3f7] text-[#454545]"
+                  ? "bg-[#e6f4ea] text-[#1e7b34] dark:bg-emerald-500/15 dark:text-emerald-300"
+                  : "bg-[#f1f3f7] text-[#454545] dark:bg-muted dark:text-foreground/80"
               }`}
             >
               {vaga.compatibilidade}% compatível
@@ -60,7 +60,7 @@ export default function VagasRecomendadas() {
             <button
               type="button"
               aria-label={`Salvar vaga: ${vaga.titulo}`}
-              className="shrink-0 cursor-pointer text-[#2d2d2d] transition hover:text-[#0f1b3d]"
+              className="shrink-0 cursor-pointer text-[#2d2d2d] transition hover:text-[#0f1b3d] dark:text-muted-foreground dark:hover:text-blue-200"
             >
               <Bookmark className="size-6" strokeWidth={2} />
             </button>

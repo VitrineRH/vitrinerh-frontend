@@ -182,4 +182,19 @@ html::-webkit-scrollbar {
   html {
     @apply font-sans;
   }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="checkbox"],
+  [role="radio"],
+  [role="tab"],
+  [role="option"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  summary {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
 }

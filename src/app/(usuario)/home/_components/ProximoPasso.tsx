@@ -12,7 +12,7 @@ export default function ProximoPasso({
   linkSecundario,
 }: ProximoPassoDados) {
   return (
-    <section className="flex min-h-[300px] flex-col gap-5 rounded-[16px] bg-[#0f1b3d] px-8 py-7 shadow-[0px_2px_6px_rgba(0,0,0,0.06)]">
+    <section className="flex min-h-[300px] flex-col gap-5 rounded-[16px] bg-[#0f1b3d] px-8 py-7 shadow-[0px_2px_6px_rgba(0,0,0,0.06)] dark:bg-[#13265e] dark:ring-1 dark:ring-white/10">
       <div className="flex flex-col gap-2">
         <p className="text-sm font-medium text-white/70">{etiqueta}</p>
         <h2 className="text-[28px] leading-9 font-semibold text-white">
