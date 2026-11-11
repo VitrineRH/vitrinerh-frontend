@@ -13,7 +13,7 @@ async function Saudacao({ saudacao }: { saudacao: string }) {
   const nome = user.user_metadata.full_name || user.email;
 
   return (
-    <h1 className="text-[25px] text-black">
+    <h1 className="text-[25px] text-black dark:text-foreground">
       {saudacao}, {nome}
     </h1>
   );
@@ -26,10 +26,10 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-6">
       <header>
-        <Suspense fallback={<div className="h-8 w-64 rounded-md bg-gray-200 animate-pulse" />}>
+        <Suspense fallback={<div className="h-8 w-64 rounded-md bg-gray-200 animate-pulse dark:bg-muted" />}>
           <Saudacao saudacao={estado.saudacao} />
         </Suspense>
-        <p className="text-sm text-[#64748b]">{estado.subtitulo}</p>
+        <p className="text-sm text-[#64748b] dark:text-muted-foreground">{estado.subtitulo}</p>
       </header>
 
       <div className="grid grid-cols-1 gap-6 min-[1200px]:grid-cols-[minmax(0,1fr)_380px]">

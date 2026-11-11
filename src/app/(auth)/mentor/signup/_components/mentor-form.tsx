@@ -15,6 +15,7 @@ import { CampoAjuda } from "./campo-ajuda"
 import { CodigoConduta } from "./codigo-conduta"
 import { EscolhaUnica } from "./escolha-unica"
 import { campoFoco } from "./estilo-campo"
+import EnviarSolicitacao from "../actions"
 
 const tempos = ["Até 2 anos", "3 a 5 anos", "6 a 10 anos", "Mais de 10"]
 const disponibilidades = ["1 a 2 conversas", "3 a 5 conversas", "Mais de 5"]
@@ -42,6 +43,7 @@ export function MentorForm({ onProgresso, onEnviado }: Props) {
   const [dados, setDados] = useState<Dados>(vazio)
   const [tentou, setTentou] = useState(false)
   const [enviado, setEnviado] = useState(false)
+  const [erro, setErro] = useState<string>()
 
   function atualizar<K extends keyof Dados>(campo: K, valor: Dados[K]) {
     setDados((atual) => ({ ...atual, [campo]: valor }))
@@ -70,13 +72,16 @@ export function MentorForm({ onProgresso, onEnviado }: Props) {
   const faltaDisponibilidade = tentou && !dados.disponibilidade
   const faltaTermos = tentou && !dados.termos
 
-  function enviar(e: React.SubmitEvent<HTMLFormElement>) {
+  const enviar = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     setTentou(true)
     if (!dados.tempo || !dados.disponibilidade || !dados.termos) return
 
-    // TODO: salvar na tabela solicitacao_mentor (Supabase).
-    // Por enquanto a solicitação só aparece como enviada na tela.
+    const res = await EnviarSolicitacao(dados)
+    if (res.error) {
+      setErro(res.error)
+      return
+    }
     setEnviado(true)
     onEnviado()
   }
@@ -222,9 +227,14 @@ export function MentorForm({ onProgresso, onEnviado }: Props) {
       </FieldGroup>
 
       <div className="flex flex-col gap-3">
+        {erro && (
+          <p role="alert" className="text-sm text-destructive">
+          {erro}  
+          </p>
+        )}
         <button
           type="submit"
-          className="flex h-12 w-full items-center justify-center rounded-lg bg-[#0b1437] text-sm font-medium text-white outline-none transition-colors hover:bg-[#13265e] focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-400"
+          className="flex h-12 w-full items-center justify-center rounded-lg hover:cursor-pointer bg-[#0b1437] text-sm font-medium text-white outline-none transition-colors hover:bg-[#13265e] focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-400"
         >
           Enviar solicitação
         </button>

@@ -40,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <VLibras />
           <Sidebar
             perfil={
-              <Suspense fallback={<div className="h-12 mb-4 rounded-md bg-gray-100 animate-pulse" />}>
+              <Suspense fallback={<div className="h-12 mb-4 rounded-md animate-pulse" />}>
                 <PerfilUsuario />
               </Suspense>
             }

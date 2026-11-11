@@ -57,7 +57,7 @@ const Dados = () => {
                         Sobra vontade de aprender do outro.
                     </h3>
                     <p className="text-sm text-white/75 ">
-                        Foi por pra suprir isso que o Vitrine<span className="font-bold">RH</span> nasceu.
+                        Foi pra suprir isso que o Vitrine<span className="font-bold">RH</span> nasceu.
                     </p>
                 </div>
                 <div className="flex flex-col gap-12 my-10">
