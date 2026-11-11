@@ -51,6 +51,8 @@ export async function buscarVagas(
 
   const compatPorVaga = new Map<number, number>();
   for (const item of compatibilidades.data ?? []) {
+    if (item.porcentual === null) continue;
+
     if (!compatPorVaga.has(item.idvagas)) {
       compatPorVaga.set(item.idvagas, item.porcentual);
     }
