@@ -126,7 +126,7 @@ function PeriodBarChartCard({
   )
 
   return (
-    <Card data-slot="period-bar-chart-card" className={cn("@container/card gap-4", className)} {...props}>
+    <Card data-slot="period-bar-chart-card" className={cn("@container/card", className)} {...props}>
       <CardHeader className="@max-sm/card:[grid-template-columns:minmax(0,1fr)]!">
         <CardDescription>{title}</CardDescription>
         <CardTitle className="text-3xl font-semibold tabular-nums tracking-tight">

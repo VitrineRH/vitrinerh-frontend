@@ -2,12 +2,11 @@ import { SplitText } from "@/components/ui/split-text"
 import { FileText, Clock, Cat, Upload } from "lucide-react"
 import Link from "next/link"
 import AnalisesRestantes from "./analises-restantes";
-import { div } from "three/src/nodes/math/OperatorNode.js";
 
 type HeaderProps = {
-    nomeArquivo?: string;
-    enviadoEm?: string;
-    cargoAlvo?: string
+    nomeArquivo?: string | null;
+    enviadoEm?: string | null;
+    cargoAlvo?: string | null
 }
 
 const formatarData = (data: string) =>

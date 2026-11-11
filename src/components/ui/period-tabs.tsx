@@ -80,9 +80,9 @@ function PeriodTabs({
       className={cn("w-fit", className)}
       value={value}
       defaultValue={defaultValue}
-      onValueChange={(next) => {
+      onValueChange={(next, details) => {
         setInternalValue(next)
-        onValueChange?.(next)
+        onValueChange?.(next, details)
       }}
       {...props}
     >

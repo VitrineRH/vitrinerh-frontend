@@ -12,26 +12,28 @@ import {
 
 type Criterio = {
     criterio: string;
-    nota: number;
+    nota: number | null;
 }
 
 type VisaoGeralProps = {
-    PontuacaoGeral?: number;
-    classificacao?: string;
+    PontuacaoGeral?: number | null;
+    classificacao?: string | null;
     criterios?: Criterio[];
-    resumo?: string;
-    cargoAlvo?: string;
-    empresaAlvo?: string;
+    resumo?: string | null;
+    cargoAlvo?: string | null;
+    empresaAlvo?: string | null;
 }
 
-const vagaAlvo = (cargo?: string, empresa?: string) => {
+const vagaAlvo = (cargo?: string | null, empresa?: string | null) => {
     if (cargo && empresa) return `Para a vaga de ${cargo} na ${empresa}`
     if (cargo) return `Para a vaga de ${cargo}`
     if (empresa) return `Para vagas na ${empresa}`
     return "Visão geral do seu currículo"
 }
 
-const VisaoGeral = ({ PontuacaoGeral, classificacao, criterios = [], resumo, cargoAlvo, empresaAlvo }: VisaoGeralProps ) => {
+const VisaoGeral = ({ PontuacaoGeral, classificacao, criterios: criteriosBrutos = [], resumo, cargoAlvo, empresaAlvo }: VisaoGeralProps ) => {
+    const criterios = criteriosBrutos.map((c) => ({ criterio: c.criterio, nota: c.nota ?? 0 }))
+
     const dados = criterios.map(({ criterio, nota }) => ({
         criterio: criterio.split(" ")[0],
         nota,

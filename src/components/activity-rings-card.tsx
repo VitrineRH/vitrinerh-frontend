@@ -116,7 +116,7 @@ function ActivityRingsCard({
   return (
     <Card
       data-slot="activity-rings-card"
-      className={cn("@container/card gap-4", className)}
+      className={cn("@container/card", className)}
       {...props}
     >
       <CardHeader>

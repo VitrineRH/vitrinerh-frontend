@@ -31,7 +31,7 @@ const Resultado = async ({ params }: {params: Promise<{ id: string }> }) => {
         criterio_analise ( criterio, nota ),
         aponta_falta ( habilidade ( nome ) )
         `)
-    .eq("id", id)
+    .eq("id", Number(id))
     .maybeSingle()
 
     if (!analise) notFound()
