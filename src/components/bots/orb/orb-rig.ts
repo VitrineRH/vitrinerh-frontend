@@ -20,13 +20,10 @@ import {
   SHELL_VERTEX,
 } from "./orb-shaders";
 
-/** Distância da câmera que deixa a esfera com ~metade da altura do quadro,
- *  sobrando espaço para filamentos, partículas e o halo do bloom. */
 const CAMERA_DISTANCE = 7;
 const FILAMENT_SEGMENTS = 160;
 
-// Luz somada sem tocar no alfa do buffer: o alfa final é derivado do brilho no
-// passe final, então camadas aditivas não criam bordas opacas sobre a página.
+// Soma luz sem tocar no alfa: o alfa final vem do brilho, no passe final.
 const ADDITIVE = {
   transparent: true,
   depthWrite: false,
@@ -38,7 +35,6 @@ const ADDITIVE = {
   blendDstAlpha: THREE.OneFactor,
 } as const;
 
-// PRNG com semente fixa: a Orb nasce sempre com a mesma composição.
 function mulberry32(seed: number) {
   let a = seed;
   return () => {
@@ -49,8 +45,6 @@ function mulberry32(seed: number) {
   };
 }
 
-// Volume 32³ de valores aleatórios, repetível nos três eixos. Com filtro linear
-// vira ruído de valor: o raymarch lê a textura em vez de calcular hashes.
 function buildNoiseTexture(random: () => number) {
   const size = 32;
   const data = new Uint8Array(size * size * size * 4);
@@ -65,8 +59,6 @@ function buildNoiseTexture(random: () => number) {
   return texture;
 }
 
-/** A cena da Orb em Three.js puro: cria malhas, materiais e pós-processamento,
- *  recebe um `OrbFrame` por quadro e libera tudo em `dispose`. */
 export class OrbRig {
   private readonly root = new THREE.Group();
   private readonly swarm = new THREE.Group();
@@ -95,7 +87,6 @@ export class OrbRig {
     const random = mulberry32(20261111);
     this.noise = buildNoiseTexture(random);
 
-    // ── corpo: vidro refrativo com o volume luminoso por dentro
     this.body = new THREE.Mesh(
       new THREE.IcosahedronGeometry(1, tier.detail),
       new THREE.ShaderMaterial({
@@ -125,7 +116,6 @@ export class OrbRig {
       }),
     );
 
-    // ── casca externa: segunda camada de vidro, com paralaxe sobre a primeira
     this.shell = new THREE.Mesh(
       new THREE.SphereGeometry(1.085, 96, 64),
       new THREE.ShaderMaterial({
@@ -142,7 +132,6 @@ export class OrbRig {
     );
     this.shell.renderOrder = 1;
 
-    // ── aura: brilho suave atrás da esfera (fica fora do grupo que inclina)
     this.aura = new THREE.Mesh(
       new THREE.PlaneGeometry(6.4, 6.4),
       new THREE.ShaderMaterial({
@@ -163,12 +152,10 @@ export class OrbRig {
     this.root.add(this.body, this.shell, this.swarm);
     scene.add(this.root);
 
-    // ── pós-processamento: cena → bloom → passe final (tone map, sRGB, alfa)
     const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: tier.samples });
     this.composer = new EffectComposer(renderer, target);
     this.composer.addPass(new RenderPass(scene, camera));
     this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.2, 0.4, 1.0);
-    // os mips mais largos puxam para azul e violeta: o halo é colorido, não cinza
     const tints: [number, number, number][] = [
       [1, 1, 1],
       [0.75, 0.88, 1],
@@ -294,22 +281,18 @@ export class OrbRig {
     return points;
   }
 
-  /** `width`/`height` em pixels CSS. */
   resize(width: number, height: number, dpr: number) {
     if (width <= 0 || height <= 0) return;
     const aspect = width / height;
-    // em containers estreitos a câmera recua para a Orb caber na largura
     this.camera.position.set(0, 0, CAMERA_DISTANCE / Math.min(1, aspect));
     this.camera.aspect = aspect;
     this.camera.updateProjectionMatrix();
     // o composer não arredonda: um dpr fracionado criaria buffers de tamanho quebrado
     this.composer.setPixelRatio(1);
     this.composer.setSize(Math.max(1, Math.round(width * dpr)), Math.max(1, Math.round(height * dpr)));
-    // partículas com tamanho proporcional ao quadro, não a pixels fixos
     this.pointScale = (Math.min(width, height) / 520) * dpr;
   }
 
-  /** Reduz o custo do raymarch em máquinas lentas (sem recompilar o shader). */
   setSteps(steps: number) {
     this.steps = steps;
   }
@@ -338,16 +321,13 @@ export class OrbRig {
     body.uRing.value = f.ring;
     body.uRingPhase.value = f.ringPhase;
 
-    // A Orb inclina de leve em direção ao cursor e o painel de luz o acompanha.
-    // As luzes são definidas no mundo e levadas para o espaço do objeto, onde o
-    // shader trabalha, para que não girem junto com a esfera.
+    // luzes levadas ao espaço do objeto para não girarem junto com a esfera
     this.root.rotation.set(f.pointerY * 0.2, f.pointerX * 0.3, 0);
     this.invRoot.copy(this.root.quaternion).invert();
     this.lightA
       .set(-0.5 + f.pointerX * 0.55, 0.7 - f.pointerY * 0.45, 0.6)
       .normalize()
       .applyQuaternion(this.invRoot);
-    // a segunda luz dá a volta na esfera: os reflexos nunca ficam parados
     this.lightB
       .set(Math.cos(f.t * 0.23) * 0.8, -0.35 + Math.sin(f.t * 0.17) * 0.3, Math.sin(f.t * 0.23) * 0.8)
       .normalize()

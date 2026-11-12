@@ -1,9 +1,7 @@
 import gsap from "gsap";
 import { ORB_PRESETS, ORB_SURGE_INTERVAL, type OrbParams, type OrbState } from "./orb-states";
 
-/** Tudo que o renderizador precisa para desenhar um quadro. */
 export type OrbFrame = OrbParams & {
-  /** tempo corrido (s) */
   t: number;
   /** fases acumuladas: mudam de velocidade sem dar salto */
   flowPhase: number;
@@ -14,13 +12,9 @@ export type OrbFrame = OrbParams & {
   /** cursor suavizado, de -1 a 1 (x para a direita, y para baixo) */
   pointerX: number;
   pointerY: number;
-  /** nível de áudio suavizado, 0–1 */
   audio: number;
-  /** surto espontâneo de energia, 0–1 */
   surge: number;
-  /** entrada/saída, 0–1 */
   reveal: number;
-  /** escala final da esfera */
   scale: number;
 };
 
@@ -35,9 +29,6 @@ function pick(preset: OrbParams, keys: readonly (keyof OrbParams)[]) {
   return out;
 }
 
-/** Controla a animação da Orb: o GSAP interpola os parâmetros entre estados,
- *  dispara surtos espontâneos e cuida da entrada/saída; `tick` integra as
- *  fases e suaviza o áudio a cada quadro. Não conhece Three.js. */
 export class OrbMotion {
   private readonly params: OrbParams;
   private readonly live = { surge: 0, reveal: 0 };
@@ -79,7 +70,6 @@ export class OrbMotion {
     gsap.to(this.params, { ...pick(preset, ENERGY_KEYS), duration: 0.9, ease: "power2.out", overwrite: "auto" });
     gsap.to(this.params, { ...pick(preset, MOTION_KEYS), duration: 2.1, ease: "sine.inOut", overwrite: "auto" });
     if (!this.reducedMotion) {
-      // um pulso marca a troca e o ritmo de surtos passa a ser o do novo estado
       this.fireSurge(0.6);
       this.scheduleSurge();
     }
@@ -113,7 +103,7 @@ export class OrbMotion {
       .to(this.live, { surge: 0, duration: gsap.utils.random(1.1, 1.9), ease: "power2.inOut" });
   }
 
-  /** Envelope parecido com fala, usado enquanto não chega áudio de verdade. */
+  /** Envelope de fala simulado, usado quando não há `audioLevel`. */
   private simulatedAudio(dt: number) {
     if (this.state !== "listening" && this.state !== "speaking") return 0;
     this.speechPhase += dt;
@@ -124,7 +114,6 @@ export class OrbMotion {
     return this.state === "speaking" ? level : level * 0.6;
   }
 
-  /** Avança um quadro. `audioLevel` indefinido = sem fonte de áudio. */
   tick(delta: number, audioLevel: number | undefined, pointerX = 0, pointerY = 0): OrbFrame {
     const dt = Math.min(delta, 0.05) * (this.reducedMotion ? 0.3 : 1);
     const p = this.params;
@@ -132,7 +121,6 @@ export class OrbMotion {
     Object.assign(f, p);
 
     const target = audioLevel === undefined ? this.simulatedAudio(dt) : Math.min(1, Math.max(0, audioLevel));
-    // ataque rápido, soltura lenta: acompanha a voz sem tremer
     const rate = target > f.audio ? 18 : 5;
     f.audio += (target - f.audio) * (1 - Math.exp(-dt * rate));
 
@@ -143,7 +131,6 @@ export class OrbMotion {
     f.ripplePhase += dt * (3 + f.audio * 7);
     f.ringPhase += dt * p.ringSpeed * (1 + f.audio * 0.8);
 
-    // o cursor é seguido com atraso: a Orb acompanha, não treme
     const follow = 1 - Math.exp(-dt * 3.5);
     f.pointerX += (pointerX - f.pointerX) * follow;
     f.pointerY += (pointerY - f.pointerY) * follow;
@@ -152,7 +139,6 @@ export class OrbMotion {
     f.surge = this.live.surge;
     f.reveal = this.live.reveal;
 
-    // duas senoides de períodos incomensuráveis: a respiração nunca se repete igual
     const b = this.breathPhase * Math.PI * 2;
     const breath = Math.sin(b) + 0.35 * Math.sin(b * 0.618 + 1.3);
     const audioScale = this.reducedMotion ? 0 : p.audioScale;

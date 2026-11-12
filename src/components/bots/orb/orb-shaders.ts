@@ -1,7 +1,3 @@
-// GLSL da Orb. Tudo roda sob WebGLRenderer (ShaderMaterial → GLSL ES 3.00).
-// As cores saem lineares e em HDR; tone mapping e sRGB acontecem uma vez, no
-// passe final (FINAL_FRAGMENT).
-
 const PALETTE = /* glsl */ `
 const vec3 cHot = vec3(0.82, 0.92, 1.0);
 const vec3 cCyan = vec3(0.22, 0.72, 1.0);
@@ -10,8 +6,6 @@ const vec3 cViolet = vec3(0.46, 0.14, 1.0);
 const vec3 cDeep = vec3(0.002, 0.004, 0.022);
 `;
 
-// Reflexo de um painel de luz retangular (softbox), como em fotografia de
-// produto: é o que faz a esfera ler como vidro polido e não como plástico.
 const SOFTBOX = /* glsl */ `
 float softbox(vec3 rf, vec3 L, vec2 size, float soft) {
   vec3 right = normalize(cross(vec3(0.0, 1.0, 0.0), L));
@@ -72,12 +66,6 @@ float snoise(vec3 v) {
 }
 `;
 
-// ───────────────────────── Corpo: vidro + volume interno ─────────────────────
-
-// A superfície é deformada por ruído de baixa frequência (o contorno ondula,
-// não amassa) e por ondas concêntricas que saem do polo voltado para a câmera.
-// A normal é recalculada a partir de dois vizinhos, para que reflexos e
-// refração acompanhem a deformação.
 export const BODY_VERTEX = /* glsl */ `
 uniform float uFlow;
 uniform float uDisplace;
@@ -119,16 +107,6 @@ void main() {
 }
 `;
 
-// Cada pixel refrata o raio de visão ao entrar no vidro e percorre o interior
-// da esfera somando luz. É isso que dá profundidade real (paralaxe) em vez de
-// uma textura pintada na superfície. Quatro tipos de contribuição:
-//  - fios de plasma: raymarch com ruído vindo de uma textura 3D (barato);
-//  - núcleo: integral fechada de uma gaussiana ao longo do raio, sem ruído de
-//    amostragem;
-//  - coroa: raios que saem do núcleo e anéis de pulso que viajam para fora
-//    (fala) ou para dentro (escuta);
-//  - membrana interna: interseção analítica com uma esfera menor, uma segunda
-//    camada de vidro com a borda acesa.
 export const BODY_FRAGMENT = /* glsl */ `
 uniform highp sampler3D uNoise;
 uniform float uT;
@@ -151,7 +129,6 @@ varying vec3 vCam;
 ${PALETTE}
 ${SOFTBOX}
 
-// quatro ruídos de valor independentes em uma única leitura de textura
 vec4 noise4(vec3 p) {
   vec3 i = floor(p);
   vec3 f = fract(p);
@@ -177,10 +154,7 @@ void main() {
   float tMax = max(-2.0 * bq, 0.02);
   vec3 flow = vec3(0.13, 0.31, -0.19) * uFlow;
 
-  // ── fios de plasma
   float dt = tMax / uSteps;
-  // o deslocamento inicial muda a cada quadro: em vez de um padrão fixo de
-  // hachuras, o olho soma os quadros e enxerga um volume liso
   float t = dt * ign(gl_FragCoord.xy + 5.588238 * mod(floor(uT * 60.0), 64.0));
   vec3 acc = vec3(0.0);
   float trans = 1.0;
@@ -189,7 +163,6 @@ void main() {
     vec3 p = vPos + rd * t;
     float r = length(p) / R;
 
-    // torção estática por raio + rotação lenta: um vórtice que não "enrola"
     float ang = r * 1.8 * (0.6 + uTurb) + uFlow * 0.2;
     float ca = cos(ang), sa = sin(ang);
     vec3 q = vec3(ca * p.x - sa * p.z, p.y, sa * p.x + ca * p.z);
@@ -199,10 +172,7 @@ void main() {
     vec4 b = noise4(qq);
     vec4 d = noise4(qq * 2.4 + 7.1);
 
-    // Uma superfície de nível é uma lâmina; a interseção de duas é um fio.
-    // Os fios deixam vãos escuros entre si, e é isso que dá profundidade.
-    // (O ruído de valor se concentra perto de 0.5, então a faixa em torno do
-    // nível precisa ser estreita, senão o volume inteiro vira névoa.)
+    // faixa estreita: o ruído de valor se concentra perto de 0.5
     float r1 = clamp(1.0 - abs(b.r - 0.5) * 7.5, 0.0, 1.0);
     float r2 = clamp(1.0 - abs(b.g - 0.5) * 7.5, 0.0, 1.0);
     float thread = r1 * r2;
@@ -234,7 +204,6 @@ void main() {
              * (5.6 + uCore * 1.5 + uSurge * 1.5 + uAudio * 1.6);
   inner += mix(cCyan, cBlue, 0.6) * exp(-h2 * 6.0) * (0.03 + uCore * 0.05);
 
-  // ── coroa: ruído constante ao longo do raio da esfera, visto do núcleo
   vec3 dirc = normalize(pc + 1e-4);
   float rayA = noise4(dirc * 2.8 + flow * 0.7).g;
   float rayB = noise4(dirc * 6.5 - flow * 1.1).b;
@@ -242,12 +211,10 @@ void main() {
   inner += mix(cCyan, cViolet, uViolet * 0.85) * rays * exp(-h * 5.2)
          * (0.9 + uCore * 0.4 + uSurge * 0.8);
 
-  // ── anéis de pulso
   float ring = pow(0.5 + 0.5 * sin(h * 30.0 - uRingPhase), 10.0);
   inner += mix(cCyan, cHot, 0.35) * ring * exp(-h * 4.2) * smoothstep(0.06, 0.2, h)
          * uRing * (0.25 + uAudio * 0.7 + uSurge * 0.3);
 
-  // ── membrana interna
   float rm = 0.64 * R;
   float disc = bq * bq - (dot(vPos, vPos) - rm * rm);
   vec3 membrane = vec3(0.0);
@@ -261,12 +228,10 @@ void main() {
     }
   }
 
-  // o vidro absorve mais luz perto da borda: a esfera ganha volume
   float depth = mix(0.3, 1.0, pow(ndv, 0.7));
   vec3 col = (acc + inner * mix(1.0, trans, 0.6) + membrane) * uIntensity * depth;
   col += cDeep * (0.4 + 0.6 * trans);
 
-  // ── reflexos: painel de luz frio (segue o cursor) e uma luz violeta em órbita
   vec3 rf = reflect(vd, n);
   float k1 = max(dot(rf, uLightA), 0.0);
   float k2 = max(dot(rf, uLightB), 0.0);
@@ -274,7 +239,6 @@ void main() {
   col += vec3(0.55, 0.4, 1.0) * (pow(k2, 70.0) * 0.9 + pow(k2, 6.0) * 0.05);
   col += mix(vec3(0.2, 0.1, 0.55), vec3(0.1, 0.4, 1.0), rf.y * 0.5 + 0.5) * (0.012 + fres * 0.1);
 
-  // fresnel com variação de película fina, só em tons frios
   float film = ndv * 3.0 + noise4(n * 2.5 + uFlow * 0.3).a * 1.2 + uT * 0.04;
   vec3 rim = mix(cCyan, cViolet, 0.5 + 0.5 * sin(film * 3.0 + uViolet * 2.0));
   col += rim * fres * uRim * (1.5 + uAudio * 0.9 + uSurge * 0.6);
@@ -283,11 +247,6 @@ void main() {
 }
 `;
 
-// ───────────────────────── Casca externa de vidro ────────────────────────────
-
-// Uma segunda esfera transparente, um pouco maior, envolve o corpo: tem o
-// próprio reflexo do painel de luz e uma linha fina na silhueta. O vão escuro
-// entre as duas camadas é o que comunica espessura.
 export const SHELL_VERTEX = /* glsl */ `
 varying vec3 vPos;
 varying vec3 vCam;
@@ -320,10 +279,6 @@ void main() {
 }
 `;
 
-// ───────────────────────── Aura ──────────────────────────────────────────────
-
-// Um plano atrás da esfera com um brilho radial suave: ancora a Orb no espaço
-// mesmo quando nada está forte o bastante para acender o bloom.
 export const AURA_VERTEX = /* glsl */ `
 varying vec2 vUv2;
 void main() {
@@ -346,11 +301,6 @@ void main() {
 }
 `;
 
-// ───────────────────────── Filamentos ────────────────────────────────────────
-
-// Cada instância é uma fita cujo vértice calcula a própria posição ao longo de
-// uma órbita inclinada e ondulada. A "cabeça" avança com uSpin e o resto é o
-// rastro. A fita é aberta no espaço da câmera para ter sempre a mesma espessura.
 export const FILAMENT_VERTEX = /* glsl */ `
 attribute vec4 aQuat;
 attribute vec4 aA; // fase, velocidade, raio, espessura
@@ -380,7 +330,6 @@ void main() {
   vec3 side = cross(mvn.xyz - mv.xyz, mv.xyz);
   float sl = length(side);
   side = sl > 1e-6 ? side / sl : vec3(0.0, 1.0, 0.0);
-  // grossa logo atrás da cabeça, afinando até sumir na cauda
   float taper = pow(1.0 - u, 0.7) * smoothstep(0.0, 0.025, u);
   mv.xyz += side * (uv.y - 0.5) * aA.w * (0.18 + 0.82 * taper);
   vUv2 = uv;
@@ -410,11 +359,6 @@ void main() {
 }
 `;
 
-// ───────────────────────── Partículas ────────────────────────────────────────
-
-// Toda a simulação é uma função das sementes e de duas fases acumuladas, então
-// roda inteira na GPU: cada partícula orbita em um plano próprio, mais rápido
-// quanto mais perto da esfera.
 export const PARTICLE_VERTEX = /* glsl */ `
 attribute vec4 aS1;
 attribute vec4 aS2;
@@ -463,8 +407,6 @@ void main() {
 }
 `;
 
-// ───────────────────────── Passe final ───────────────────────────────────────
-
 export const FINAL_VERTEX = /* glsl */ `
 varying vec2 vUv;
 void main() {
@@ -473,8 +415,7 @@ void main() {
 }
 `;
 
-// Aberração cromática radial, tone mapping, sRGB e dithering. O alfa sai do
-// próprio brilho, para que o halo se misture à página com o canvas transparente.
+// O alfa sai do próprio brilho, para o halo se misturar à página.
 export const FINAL_FRAGMENT = /* glsl */ `
 uniform sampler2D tDiffuse;
 uniform float uAberration;
@@ -498,14 +439,11 @@ void main() {
   vec4 base = texture2D(tDiffuse, vUv);
   vec3 col = vec3(texture2D(tDiffuse, vUv + off).r, base.g, texture2D(tDiffuse, vUv - off).b);
   col = max(col, 0.0);
-  // um pouco mais de saturação antes do tone mapping: o HDR não lava os azuis
   float luma = dot(col, vec3(0.2126, 0.7152, 0.0722));
   col = max(mix(vec3(luma), col, 1.2), 0.0);
   col = 1.0 - exp(-col * uExposure);
   col = toSRGB(col);
   col += (hash12(gl_FragCoord.xy + fract(uT) * 61.0) - 0.5) / 255.0;
-  // o halo morre antes da borda (o canvas nunca aparece como um quadrado) e a
-  // imagem inteira some na saída (uFade), inclusive o vidro escuro
   float edge = smoothstep(0.5, 0.34, length(c)) * uFade;
   col *= edge;
   float alpha = clamp(max(base.a * edge, max(col.r, max(col.g, col.b))), 0.0, 1.0);

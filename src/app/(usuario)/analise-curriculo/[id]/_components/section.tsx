@@ -56,7 +56,7 @@ const Section = ({ totalAjustes = 0, habilidadesFaltando = [], cargoAlvo }: Sect
             titulo: "Treine a entrevista",
             descricao: `Simule uma entrevista para a vaga ${vaga} e receba uma devolutiva de cada resposta.`,
             acao: "Começar simulação",
-            href: "/entrevista-ia",
+            href: "/mentoria-ia",
         },
         {
             icone: Users,

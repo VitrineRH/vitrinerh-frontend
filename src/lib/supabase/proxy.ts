@@ -5,7 +5,7 @@ const ROTAS_PROTEGIDAS = [
   "/home",
   "/analise-curriculo",
   "/vagas",
-  "/entrevista-ia",
+  "/mentoria-ia",
   "/cursos",
   "/mentores-rh",
   "/agenda",

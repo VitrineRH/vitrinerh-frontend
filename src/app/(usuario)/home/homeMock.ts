@@ -65,7 +65,7 @@ export const homeMock: HomeDados = {
         descricao:
           "Simule uma entrevista para Front-end Júnior e receba um retorno sobre suas respostas em 15 minutos.",
         textoBotao: "Começar simulação",
-        link: "/entrevista-ia",
+        link: "/mentoria-ia",
       },
     ],
   },
@@ -91,7 +91,7 @@ export const homeMock: HomeDados = {
         descricao:
           "Pratique com uma entrevista simulada por IA. Treine após enviar o seu currículo",
         textoBotao: "Começar simulação",
-        link: "/entrevista-ia",
+        link: "/mentoria-ia",
       },
       {
         titulo: "Conheça a trilha de cursos",

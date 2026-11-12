@@ -2,39 +2,26 @@ export type OrbState = "idle" | "listening" | "thinking" | "speaking";
 
 export type OrbQuality = "low" | "medium" | "high";
 
-/** Valores contínuos que descrevem a "postura" da Orb. O GSAP interpola entre
- *  os presets, então nenhum estado reinicia a cena: só muda o alvo. */
 export type OrbParams = {
-  /** emissão geral do volume interno */
   intensity: number;
-  /** energia do núcleo */
   core: number;
-  /** amplitude e frequência da deformação da superfície */
   displace: number;
   dispFreq: number;
-  /** velocidade do fluxo interno (ruído) */
   flow: number;
-  /** ondas concêntricas na superfície (escuta / fala) */
   ripple: number;
-  /** respiração: amplitude e ritmo */
   breathAmp: number;
   breathRate: number;
-  /** filamentos: velocidade, brilho e comprimento do rastro */
   filSpeed: number;
   filGlow: number;
   filArc: number;
-  /** partículas: velocidade orbital, brilho e quão perto ficam da esfera */
   partSpeed: number;
   partGlow: number;
   partTight: number;
   /** 0 = ciano/azul, 1 = violeta */
   violet: number;
-  /** complexidade do movimento interno */
   turbulence: number;
-  /** camada externa de vidro e brilho de borda */
   shell: number;
   bloom: number;
-  /** quanto o áudio mexe na escala e na luz */
   audioScale: number;
   audioGlow: number;
   /** anéis de pulso ao redor do núcleo: força e velocidade (negativa = para dentro) */
@@ -141,7 +128,6 @@ export const ORB_PRESETS: Record<OrbState, OrbParams> = {
   },
 };
 
-/** Intervalo (s) entre os "surtos" espontâneos de energia de cada estado. */
 export const ORB_SURGE_INTERVAL: Record<OrbState, [number, number]> = {
   idle: [5, 9],
   listening: [3, 6],
@@ -150,13 +136,10 @@ export const ORB_SURGE_INTERVAL: Record<OrbState, [number, number]> = {
 };
 
 export type OrbTier = {
-  /** passos do raymarch do volume interno */
   steps: number;
   particles: number;
   filaments: number;
-  /** subdivisão da esfera */
   detail: number;
-  /** amostras de MSAA do buffer de pós-processamento */
   samples: number;
   maxDpr: number;
 };

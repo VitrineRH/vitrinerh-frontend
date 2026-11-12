@@ -51,8 +51,6 @@ type StageProps = {
   onSlow: () => void;
 };
 
-// Vive dentro do <Canvas>: cria a cena e o controle de animação, e assume o
-// render (prioridade 1) para passar pelo pós-processamento.
 function OrbStage({ state, audioLevel, active, tier, reducedMotion, pointer, onSlow }: StageProps) {
   const gl = useThree((s) => s.gl);
   const scene = useThree((s) => s.scene);
@@ -91,6 +89,7 @@ function OrbStage({ state, audioLevel, active, tier, reducedMotion, pointer, onS
     rigRef.current?.resize(width, height, dpr);
   }, [width, height, dpr]);
 
+  // prioridade 1: o render passa pelo pós-processamento
   useFrame((_, delta) => {
     const rig = rigRef.current;
     const motion = motionRef.current;
@@ -102,10 +101,8 @@ function OrbStage({ state, audioLevel, active, tier, reducedMotion, pointer, onS
     rig.update(motion.tick(delta, level, pointer.current.x, pointer.current.y));
     rig.render(delta);
 
-    // Se a média de 120 quadros ficar abaixo de ~40 fps, corta passos do
-    // raymarch e pede menos resolução. No máximo duas vezes; nunca volta a subir.
-    // Quadros acima de 100 ms são a aba em segundo plano ou a página carregando,
-    // não a GPU: eles reiniciam a janela em vez de contar.
+    // Abaixo de ~40 fps, reduz passos e resolução (no máximo duas vezes).
+    // Quadros acima de 100 ms (aba oculta, carregamento) não contam.
     const p = perf.current;
     if (p.drops < 2 && now.active) {
       if (delta > 0.1) {
@@ -130,9 +127,7 @@ function OrbStage({ state, audioLevel, active, tier, reducedMotion, pointer, onS
   return null;
 }
 
-/** Orb 3D que representa a IA da mentoria. Preenche o container (por padrão,
- *  um quadrado da largura disponível) e desenha sobre fundo transparente:
- *  foi pensada para superfícies escuras. */
+/** Orb 3D da IA da mentoria. Fundo transparente, pensada para superfícies escuras. */
 export function Orb({
   state = "idle",
   audioLevel,
@@ -147,7 +142,6 @@ export function Orb({
   const [visible, setVisible] = useState(true);
   const [dprScale, setDprScale] = useState(1);
 
-  // Fora da tela, o loop de render para.
   useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
@@ -156,8 +150,6 @@ export function Orb({
     return () => observer.disconnect();
   }, []);
 
-  // O canvas não recebe eventos; o cursor é lido na janela e medido em relação
-  // ao centro da Orb, então ela reage mesmo com o ponteiro longe dela.
   const pointer = useRef({ x: 0, y: 0 });
   const follow = interactive && environment.hover && !environment.reducedMotion;
   useEffect(() => {

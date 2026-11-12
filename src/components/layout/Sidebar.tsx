@@ -41,7 +41,7 @@ const grupos: { titulo: string; links: NavLink[] }[] = [
   {
     titulo: "Carreira",
     links: [
-      { name: "Entrevista com IA", href: "/entrevista-ia", icon: Bot },
+      { name: "Entrevista com IA", href: "/mentoria-ia", icon: Bot },
       { name: "Trilha de Cursos", href: "/cursos", icon: GraduationCap },
       { name: "Mentores de RH", href: "/mentores-rh", icon: Users },
       { name: "Agenda", href: "/agenda", icon: Calendar },

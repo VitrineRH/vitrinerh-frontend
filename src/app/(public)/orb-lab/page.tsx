@@ -6,6 +6,7 @@
 import { useState } from "react";
 import { Orb, type OrbState } from "@/components/bots/orb";
 
+
 const STATES: { value: OrbState; label: string }[] = [
   { value: "idle", label: "Repouso" },
   { value: "listening", label: "Escutando" },
