@@ -21,17 +21,26 @@ export default async function ConteudoVagas({ searchParams }: Props) {
   const abriuDetalhe = filtros.vaga !== "";
 
   return (
-    <div className="flex flex-col gap-6">
-      <BarraBusca key={JSON.stringify(filtros)} filtros={filtros} />
+    <div className="flex flex-col">
+      <div className="sticky top-0 z-20 flex flex-col gap-3 bg-background pt-2 pb-6">
+        <header>
+          <h1 className="text-3xl text-black font-semibold py-1">Vagas</h1>
+          <p className="text-sm text-[#64748b] py-[0.2px]">
+            Encontre oportunidades que combinam com o seu perfil
+          </p>
+        </header>
 
-      <p className="text-sm text-[#595959]">
-        {vagas.length} {vagas.length === 1 ? "vaga encontrada" : "vagas encontradas"}
-      </p>
+        <BarraBusca key={JSON.stringify(filtros)} filtros={filtros} />
+
+        <p className="text-sm text-[#595959]">
+          {vagas.length} {vagas.length === 1 ? "vaga encontrada" : "vagas encontradas"}
+        </p>
+      </div>
 
       {vagas.length === 0 ? (
         <SemVagas />
       ) : (
-        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
           <ul className={`flex flex-col gap-3 ${abriuDetalhe ? "hidden lg:flex" : ""}`}>
             {vagas.map((vaga) => (
               <li key={vaga.id}>
@@ -45,7 +54,9 @@ export default async function ConteudoVagas({ searchParams }: Props) {
           </ul>
 
           <div className={abriuDetalhe ? "" : "hidden lg:block"}>
-            <DetalheVaga vaga={selecionada} filtros={filtros} />
+            <div className="lg:sticky lg:top-[300px]">
+              <DetalheVaga vaga={selecionada} filtros={filtros} />
+            </div>
           </div>
         </div>
       )}

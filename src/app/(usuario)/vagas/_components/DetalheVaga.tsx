@@ -14,7 +14,7 @@ export default function DetalheVaga({ vaga, filtros }: Props) {
   const etiquetas = [vaga.modalidade, vaga.regime, vaga.jornada].filter(Boolean);
 
   return (
-    <article className="flex flex-col gap-5 rounded-[16px] border border-[#d9d9d9] bg-white p-6 shadow-[0px_2px_6px_rgba(0,0,0,0.06)] lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+    <article className="flex flex-col gap-5 rounded-[16px] border border-[#d9d9d9] bg-white p-6 shadow-[0px_2px_6px_rgba(0,0,0,0.06)]  lg:overflow-y-auto">
       <Link
         href={hrefVagas(filtros)}
         className="inline-flex items-center gap-1 text-sm font-medium text-[#1a56db] lg:hidden"
@@ -29,7 +29,7 @@ export default function DetalheVaga({ vaga, filtros }: Props) {
             <SeloCompatibilidade valor={vaga.compatibilidade} />
           )}
         </div>
-         <ul className="flex flex-col gap-1.5 text-sm text-[#454545]">
+        <ul className="flex flex-col gap-1.5 text-sm text-[#454545]">
           <li className="flex items-center gap-2">
             <Building2 className="size-4" aria-hidden />
             {vaga.empresas?.site_empresa_url ? (
@@ -54,7 +54,7 @@ export default function DetalheVaga({ vaga, filtros }: Props) {
             {formatarSalario(vaga.salario_min, vaga.salario_max)}
           </li>
         </ul>
-          <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {etiquetas.map((etiqueta) => (
             <span
               key={etiqueta}

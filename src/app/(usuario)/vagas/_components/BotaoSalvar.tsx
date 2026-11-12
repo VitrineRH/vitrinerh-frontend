@@ -29,10 +29,10 @@ export default function BotaoSalvar({ idVaga, salva, desabilitado }: Props) {
         onClick={salvar}
         disabled={pendente || desabilitado}
         aria-pressed={salva}
-        className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-[#d9d9d9] bg-white px-5 text-sm font-semibold text-[#2d2d2d] transition hover:border-[#1a56db] disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-[#d9d9d9] bg-white px-5 text-sm font-semibold text-[#2d2d2d] transition duration-200 hover:border-[#1a56db] active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
       >
         <Bookmark
-          className={`size-5 ${salva ? "fill-[#1a56db] text-[#1a56db]" : ""}`}
+          className={`size-5 ${salva ? "fill-[#092154] text-[#08142e]" : ""}`}
           strokeWidth={2}
         />
         {pendente ? "Salvando..." : salva ? "Vaga salva" : "Salvar vaga"}
