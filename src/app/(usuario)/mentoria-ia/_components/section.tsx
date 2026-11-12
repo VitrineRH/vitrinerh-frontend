@@ -4,6 +4,7 @@
 import { Orb } from "@/components/bots/orb"
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
 import { error } from "console"
+import { useRouter } from "next/navigation"
 import React, { useRef, useEffect, useState } from "react"
 
 const corpoCard = 
@@ -11,6 +12,7 @@ const corpoCard =
 
 const Sessao = () => {
 
+    const router = useRouter()
     const videoRef = useRef<HTMLVideoElement>(null)
     const [aceitou, setAceitou] = useState(false)
     const [foco, setFoco] = useState("")
@@ -84,7 +86,10 @@ const Sessao = () => {
                             <span className="text-sm text-muted-foreground"> Entendo que o Orbe observa meus padrões comportamentais em tempo real para dar dicas, sem gravar video ou Imagem</span>
                         </CardItem>
                         <CardItem>
-                            <button className="border border-foreground/40 rounded-3xl text-sm font-light px-3 py-4 hover:cursor-pointer">
+                            <button 
+                            onClick={() => router.push(`/mentoria-ia/${crypto.randomUUID()}`)}
+                            className="border border-foreground/40 rounded-3xl text-sm font-light px-3 py-4 hover:cursor-pointer"
+                            disabled={!aceitou} >
                                 Iniciar entrevista
                             </button>
                         </CardItem>
