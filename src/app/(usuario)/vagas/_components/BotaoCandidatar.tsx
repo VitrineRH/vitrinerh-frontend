@@ -35,7 +35,7 @@ export default function BotaoCandidatar({ idVaga, url, jaCandidatou }: Props) {
       type="button"
       onClick={candidatar}
       disabled={pendente}
-      className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-[10px] bg-[#1a56db] px-5 text-sm font-semibold text-white transition hover:bg-[#1546b3] disabled:opacity-60"
+      className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-[10px] bg-gradient-to-r from-black to-blue-800/95 px-5 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:brightness-125 active:scale-95 disabled:opacity-60"
     >
       {jaCandidatou ? "Abrir candidatura" : "Candidatar-se"}
       <ExternalLink className="size-4" aria-hidden />
