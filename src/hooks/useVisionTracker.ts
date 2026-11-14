@@ -1,21 +1,17 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import {
-    FaceLandmarker,
-    PoseLandmarker,
-    GestureRecognizer,
-    FilesetResolver,
-    type FaceLandmarkerResult,
-    type PoseLandmarkerResult,
-    type GestureRecognizerResult
+import type {
+ FaceLandmarkerResult,
+ PoseLandmarkerResult,
+ GestureRecognizerResult
 } from "@mediapipe/tasks-vision"
 
+import type { FromWorker, ToWorker } from "@/workers/vision.worker"
 
-const wasm_url = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.2.3/wasm"
-const face_model_url = "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task"
-const pose_model_url = "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task"
-const gesture_model_url = "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task"
+// limite de ritmo: no máximo ~12 análises por segundo
+// (o vídeo continua a 30 fps; isso só controla quantas vezes o modelo roda)
+const ANALYSIS_INTERVAL_MS = 1000 / 12
 
 export type VisionStatus = 'loading' | 'ready' | 'error'
 
@@ -36,103 +32,56 @@ const useVisionTracker = () => {
         let cancelado = false
         let rafId = 0
         let stream: MediaStream | null = null
-        let face: FaceLandmarker | null = null
-        let pose: PoseLandmarker | null = null
-        let gesture: GestureRecognizer | null = null
 
-        let frame = 0
-        let poseMs = 0
-        let handMs = 0
+        let busy = false
+        let lastSent = 0
         let lastVideoTime = -1
         let fpsFrames = 0
         let fpsStart = performance.now()
 
+        const worker = new Worker (
+            new URL("../workers/vision.worker.ts", import.meta.url),
+            { type: "module" }
+        )
+        const send = (msg: ToWorker, transfer: Transferable[] = []) => 
+            worker.postMessage(msg, transfer)
+
+        // o loop so tira foto e manda
         const loop = () => {
-            const video = videoRef.current
-            if (!video || !face || !pose || !gesture) return
-            
-            // só roda o modelo quando chega um frame novo da camera rs
-            if (video.readyState >= 2 && video.currentTime !== lastVideoTime) {
-                lastVideoTime = video.currentTime
-                const now = performance.now()
-
-                // rosto: todo frame
-                const t0 = performance.now()
-                resultRef.current.face = face.detectForVideo(video, now)
-                const t1 = performance.now()
-                const faceMs = t1 - t0
-
-                //trabalhar com rodizio para facilitar rodizio: par = pose, impar = mãos
-                if (frame % 2 === 0) {
-                    resultRef.current.pose = pose.detectForVideo(video, now)
-                    poseMs = performance.now() - t1
-                } else {
-                    resultRef.current.gesture = gesture.recognizeForVideo(video, now)
-                    handMs = performance.now() - t1
-                }
-                frame++
-
-                //contador de FPS: atualiza o state só 1x por segundo
-                fpsFrames++
-                if (now - fpsStart >= 1000) {
-                    setFps(Math.round((fpsFrames * 1000) / (now - fpsStart)))
-                    fpsFrames = 0
-                    fpsStart = now
-
-                    const g = resultRef.current.gesture?.gestures[0]?.[0]
-                    console.log(
-                        "[vision] rosto", faceMs.toFixed(1),
-                        "| pose", poseMs.toFixed(1),
-                        "| mão", handMs.toFixed(1), "ms",
-                        "| ombros", resultRef.current.pose?.landmarks[0] ? "ok" : "null",
-                        "| gesto", g ? `${g.categoryName} (${g.score.toFixed(2)})` : "null"
-                    )
-                }
-            }
             rafId = requestAnimationFrame(loop)
-        }
-        const start = async () => {
-            try {
-                const vision = await FilesetResolver.forVisionTasks(wasm_url)
 
-                //carregar os 3
-                const [f,p,g] = await Promise.all([
-                    FaceLandmarker.createFromOptions(vision, {
-                    baseOptions: {
-                        modelAssetPath: face_model_url,
-                        delegate: "GPU"
-                    },
-                    runningMode: 'VIDEO',
-                    numFaces: 1,
-                    outputFaceBlendshapes: true
-                }),
-                PoseLandmarker.createFromOptions(vision, {
-                    baseOptions: {
-                        modelAssetPath: pose_model_url,
-                        delegate: "GPU"
-                    },
-                    numPoses: 1,
-                    runningMode: 'VIDEO'
-                }),
-                GestureRecognizer.createFromOptions(vision, {
-                    baseOptions: {
-                        modelAssetPath: gesture_model_url,
-                        delegate: "GPU"
-                    },
-                    numHands: 1,
-                    runningMode: 'VIDEO'
-                }),
-            ])
+            // aba escondida: não analisa nada
+            if (document.hidden) return
+
+            const video = videoRef.current
+            if (!video || busy) return
+
+            // limite de ritmo: espera dar o intervalo desde o último envio
+            const now = performance.now()
+            if (now - lastSent < ANALYSIS_INTERVAL_MS) return
+
+            // só roda o modelo quando chega um frame novo da camera rs
+            if(video.readyState < 2 || video.currentTime === lastVideoTime) return
+
+            lastVideoTime = video.currentTime
+            lastSent = now
+            busy = true
+
+            createImageBitmap(video)
+            .then((bitmap) => {
                 if (cancelado) {
-                    f.close();
-                    p.close();
-                    g.close();
+                    bitmap.close()
                     return
                 }
-                face = f
-                pose = p
-                gesture = g
+                send({ type: "frame", bitmap, timestamp: performance.now() }, [bitmap])
+            })
+            .catch(() => {
+                busy = false
+            })
+        }
 
+        const startCamera = async () => {
+            try {
                 const media = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: 'user',
@@ -160,15 +109,50 @@ const useVisionTracker = () => {
                 if (!cancelado) setStatus('error')
             }
         }
-        start()
+        worker.onmessage = (event: MessageEvent<FromWorker>) => {
+        const msg = event.data
 
-        return () => {
-            cancelado = true
-            cancelAnimationFrame(rafId)
-            stream?.getTracks().forEach((t) => t.stop())
-            face?.close()
-            pose?.close()
-            gesture?.close()
+        if (msg.type === "ready") {
+            startCamera()
+            return
+        }
+
+        if (msg.type === "error") {
+            console.error("[vision worker]", msg.message)
+            setStatus('error')
+            return
+        }
+
+        // type === "result"
+        busy = false
+        resultRef.current.face = msg.face
+        if (msg.pose) resultRef.current.pose = msg.pose
+        if (msg.gesture ) resultRef.current.gesture = msg.gesture
+
+        const now = performance.now()
+        fpsFrames++
+        if (now - fpsStart >= 1000) {
+            setFps(Math.round((fpsFrames * 1000) / (now - fpsStart)))
+            fpsFrames = 0
+            fpsStart = now
+
+            const g = resultRef.current.gesture?.gestures[0]?.[0]
+            console.log(
+                "[vision] rosto", msg.faceMs.toFixed(1),
+                "| extra", msg.extraMs.toFixed(1), "ms",
+                "| ombros", resultRef.current.pose?.landmarks[0] ? "ok" : "null",
+                "| gesto", g ? `${g.categoryName} (${g.score.toFixed(2)})` : "null"
+            )
+        }
+    }
+
+    send({ type: "init" })
+
+    return () => {
+        cancelado = true
+        cancelAnimationFrame(rafId)
+        stream?.getTracks().forEach((t) => t.stop())
+        worker.terminate() // mata o worker e libera a porra toda junta
         }
     }, [])
 
